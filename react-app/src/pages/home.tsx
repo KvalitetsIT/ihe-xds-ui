@@ -1,11 +1,9 @@
-import { ValidationSchemaExample } from "../feature/TodoApi/form"
-import { TodoList } from "../feature/TodoApi/todoList"
+import Button from "../feature/CredentialAPI/Button"
 
 export const HomePage = () => {
     return (
         <>
-        <TodoList></TodoList>
-        <ValidationSchemaExample></ValidationSchemaExample>
-        </>
+        <Button />
+                </>
     )
 }
