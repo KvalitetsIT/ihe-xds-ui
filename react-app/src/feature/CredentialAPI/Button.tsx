@@ -1,29 +1,43 @@
-import { useGetCredentielInfoQuery } from "./redux/CredentialInfoApiSlice"
+import { useState } from "react";
+import CredentialInfo from "../../models/CredentialInfo";
+import { useAddCredentielInfoMutation } from "./redux/CredentialInfoApiSlice";
+import testObj  from "./TestObject";
 
 function Button() {
+    const [pressed, setPressed] = useState(false)
+    const [selectedFile, setSelectedFile] = useState(null)
 
-    const {data , isLoading, isSuccess, isError, error} = useGetCredentielInfoQuery("")
+    const onFileChange = (e : any) =>{
+            setSelectedFile(e.target.files[0])
+    }
 
 
     const getStandard = () => {
-        let content;
+        setPressed((prev) => !prev)
 
-        if (isLoading) {
-            content = "LOADING"
-        }
-        else if (isSuccess) {
-            content = data
-        }
-        else {
-            content = error
-        }
+    }
+    const addData = () => {
+        const obj : CredentialInfo = testObj
+       // useAddCredentielInfoMutation(obj)
 
-        console.log(content)
 
     }
 
+
+    if (pressed) {
+        return (
+            <div>
+            <button onClick={getStandard}>Get</button>
+            </div>
+        )
+    }
     return (
-        <button onClick={getStandard}>TEST</button>
+        <>
+        <button onClick={getStandard}>Get</button>
+        <div>
+            <input type="file" onChange={onFileChange}/> 
+        </div>
+        </>
     )
 
 }
