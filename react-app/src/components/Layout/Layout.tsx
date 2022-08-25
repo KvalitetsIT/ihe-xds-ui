@@ -1,10 +1,10 @@
-import { t } from 'i18next';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { UserContext } from '../../feature/User/logic/FetchUser';
 
 
 import { RootState } from '../../redux/store';
+import Footer from './Footer/Footer';
+import Header from './Header/Header';
 
 type LayoutProps = {
     children: JSX.Element
@@ -12,16 +12,13 @@ type LayoutProps = {
 
 
 const Layout = (props: LayoutProps) => {
-    const loggedInAs = useContext(UserContext);
     return (
         <>
             <div>
-                {t("Your user has name") + ""} : {loggedInAs?.name}
+                <Header />
             </div>
             <main>{props.children}</main>
-            <div>
-                {t("this is the footer") + ""}
-            </div>
+           <Footer />
         </>
     )
 }

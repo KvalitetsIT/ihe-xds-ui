@@ -1,18 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { postApiSlice } from '../feature/TodoApi/redux/postApiSlice'
+import { CredentialInfoAPI } from '../feature/CredentialAPI/redux/CredentialInfoApiSlice'
 
 
 const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
-        [postApiSlice.reducerPath]: postApiSlice.reducer,
+        [CredentialInfoAPI.reducerPath]: CredentialInfoAPI.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(postApiSlice.middleware),
+        getDefaultMiddleware().concat(CredentialInfoAPI.middleware),
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

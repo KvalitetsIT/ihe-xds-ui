@@ -4,13 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
+import { CredentialInfoAPI } from './feature/CredentialAPI/redux/CredentialInfoApiSlice';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <App />
+  <React.StrictMode>
+<ApiProvider api={CredentialInfoAPI}>
+<App />
+</ApiProvider>
+
+
+  </React.StrictMode>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
