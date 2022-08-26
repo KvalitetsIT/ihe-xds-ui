@@ -3,7 +3,7 @@ import './App.css';
 import store from './redux/store'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HomePage } from './pages/home';
+import { HomePage } from './pages/Home/home';
 import Layout from './components/Layout/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
