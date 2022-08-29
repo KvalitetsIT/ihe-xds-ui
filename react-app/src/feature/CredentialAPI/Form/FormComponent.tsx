@@ -53,7 +53,7 @@ export const FormComponent = (props: any) => {
                             <div className='first-row'>
                                 <Grid container direction={"row"} spacing={3} >
                                     <Grid item xs={8}>
-                                        <FormControl style={{width: 235}}>
+                                        <FormControl style={{ width: 235 }}>
                                             <InputLabel id="certificate-select-label">Certficate</InputLabel>
                                             <Select
                                                 labelId="certificate-select-label"
@@ -62,7 +62,7 @@ export const FormComponent = (props: any) => {
                                                 label="Certficate"
                                                 onChange={formikProps.handleChange}
                                                 name={formikProps.values.certificate}
-                                                
+
                                             >
                                                 {data!.map((item, index: number) => {
                                                     return (
@@ -125,10 +125,10 @@ export const FormComponent = (props: any) => {
                             </div>
                             <div className='row'>
                                 <Grid container direction={"row"} justifyContent="center"
-                                    alignItems="center">
+                                    alignItems="center" >
                                     <Grid item xs={6}>
                                         < Stack direction="row" spacing={1.5}>
-                                            <FormControl fullWidth>
+                                            <FormControl style={{width : 235}}>
                                                 <InputLabel id="format-code-select-label">Format Code</InputLabel>
                                                 <Select
                                                     labelId="format-code-select-label"
@@ -219,13 +219,13 @@ export const FormComponent = (props: any) => {
                                     </Grid>
                                 </Grid>
                             </div>
-                            <div className='row'>
+                            <div className='row' >
 
                                 <Grid container direction={"row"} justifyContent="center"
-                                    alignItems="center">
+                                    alignItems="center" style={{ marginLeft: -144 }}>
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
-                                            <FormControl style={{width : 235}}>
+                                            <FormControl style={{ width: 235 }}>
                                                 <InputLabel id="practice-setting-code-select-label">Practice Setting Code</InputLabel>
                                                 <Select
                                                     labelId="practice-setting-code-select-label"
@@ -276,29 +276,46 @@ export const FormComponent = (props: any) => {
                             </div>
                             <div className='row'>
                                 <Grid container direction={"row"} justifyContent="center"
-                                    alignItems="center">
-                                    <Grid item xs={5}>
-                                        <DatePickComponent label={"Start Date"} />
+                                    alignItems="center" >
+                                    <Grid item xs={6}>
+                                        <Stack spacing={2}>
+                                            <label htmlFor='service-start-start-date'>Service Start From</label>
+                                            <div className='dt-picker'>
+                                                <DatePickComponent id={"service-start-start-date"} label={"Start Date"} />
+                                            </div>
+
+                                        </Stack>
                                     </Grid>
-                                    <Grid item xs={2}>
-                                        <div>To</div>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <DatePickComponent label={"End Date"} />
+                                    <Grid item xs={6}>
+                                        <Stack spacing={2}>
+                                            <label htmlFor='service-start-end-date'>To</label>
+                                            <div className='dt-picker'>                                        <DatePickComponent id={"service-start-end-date"} label={"End Date"} />
+                                            </div>
+                                        </Stack>
+
                                     </Grid>
                                 </Grid>
                             </div>
                             <div className='row'>
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
-                                    <Grid item xs={5}>
-                                        <DatePickComponent label={"Start Date"} />
+                                    <Grid item xs={6}>
+                                        <Stack spacing={2}>
+                                            <label htmlFor='service-stop-start-date'>Service Stop From</label>
+                                            <div className='dt-picker'>
+                                                <DatePickComponent id={"service-stop-start-date"} label={"Start Date"} />
+                                            </div>
+
+                                        </Stack>
                                     </Grid>
-                                    <Grid item xs={2}>
-                                        <div>To</div>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <DatePickComponent label={"End Date"} />
+                                    <Grid item xs={6}>
+                                        <Stack spacing={2}>
+                                            <label htmlFor='service-stop-end-date'>To</label>
+                                            <div className='dt-picker'>
+                                                <DatePickComponent id={"service-stop-end-date"} label={"End Date"} />
+                                            </div>
+                                        </Stack>
+
                                     </Grid>
                                 </Grid>
                             </div>
