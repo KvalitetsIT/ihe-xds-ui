@@ -43,9 +43,31 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Healthcare facility type codes could not be fetched" }),
                 }),
                 providesTags: ['Codes']
+            }),
+            getEventCode: builder.query<Codes[], void>({
+                query: () => ({
+
+                    // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
+                    url: `http://localhost:8080` + '/v1/codes/eventCode',
+                    method: 'GET',
+                    responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Event code could not be fetched" }),
+                }),
+                providesTags: ['Codes']
+            }),
+            //   
+            getPractiseSettingCode: builder.query<Codes[], void>({
+                query: () => ({
+
+                    // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
+                    url: `http://localhost:8080` + '/v1/codes/practiceSettingCode',
+                    method: 'GET',
+                    responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Practise setting code could not be fetched" }),
+                }),
+                providesTags: ['Codes']
             })
+
         })
     }
 )
 
-export const {useGetTypeCodesQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery} = exendendApiSlice
+export const {useGetTypeCodesQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery} = exendendApiSlice

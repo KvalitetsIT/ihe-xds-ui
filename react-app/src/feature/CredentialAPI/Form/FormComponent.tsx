@@ -14,7 +14,7 @@ import DatePickComponent from '../DatePickComponent';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
 import { Search, Codes, ID } from '../../../models/Searches/Search';
 import Dropdown from '../../../components/Generics/Dropdown copy';
-import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery } from '../redux/CodesApSlicei';
+import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery } from '../redux/CodesApSlicei';
 
 
 
@@ -80,6 +80,46 @@ const GetHealthcareFacilityTypeCode = (helperText: string, formikProps: any) => 
     }
 }
 
+const GetEventCode = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetEventCodeQuery()
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Event Code (scheme)'}
+                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                options={data}
+                fieldName={'eventCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
+
+const GetPracticeSettingCode = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetPractiseSettingCodeQuery()
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Practice Setting Code'}
+                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                options={data}
+                fieldName={'practiceSettingCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
+
 
 
 
@@ -112,6 +152,8 @@ export const FormComponent = (props: any) => {
             typeCode: codeTemplate,
             formatCode: codeTemplate,
             healthcareFacilityTypeCode: codeTemplate,
+            eventCode : codeTemplate,
+            practiceSettingCode : codeTemplate
 
         }
 
@@ -122,7 +164,6 @@ export const FormComponent = (props: any) => {
                     validationSchema={SignupSchema}
                     onSubmit={(values) => {
                         // same shape as initial values
-                        console.log("HELO")
                         console.log(values)
 
                     }}
@@ -201,27 +242,7 @@ export const FormComponent = (props: any) => {
                                         <TextField id="event-code-id-tf" label="Event Code (code)" variant="outlined" />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="event-code-select-label">Event Code (scheme)</InputLabel>
-                                            <Select
-                                                labelId="event-code-select-label"
-                                                id="event-code-select"
-                                                //defaultValue={getIn(formikProps.values, "certificate")}
-                                                label="Event Code (scheme)"
-                                            //onChange={formikProps.handleChange}
-                                            //name={formikProps.values.certificate}
-                                            >
-                                                {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
-
-                                            </Select>
-                                            <FormHelperText error={helperText != undefined} >
-                                                {helperText}
-                                            </FormHelperText>
-                                        </FormControl>
+                                        {GetEventCode(helperText, formikProps)}
                                     </Grid>
                                 </Grid>
                             </div>
@@ -231,27 +252,8 @@ export const FormComponent = (props: any) => {
                                     alignItems="center" style={{ marginLeft: -144 }}>
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
-                                            <FormControl style={{ width: 235 }}>
-                                                <InputLabel id="practice-setting-code-select-label">Practice Setting Code</InputLabel>
-                                                <Select
-                                                    labelId="practice-setting-code-select-label"
-                                                    id="practice-setting-code-select"
-                                                    //defaultValue={getIn(formikProps.values, "certificate")}
-                                                    label="Practice Setting Code"
-                                                //onChange={formikProps.handleChange}
-                                                //name={formikProps.values.certificate}
-                                                >
-                                                    {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
-
-                                                </Select>
-                                                <FormHelperText error={helperText != undefined} >
-                                                    {helperText}
-                                                </FormHelperText>
-                                            </FormControl>
+                                            {GetPracticeSettingCode(helperText, formikProps)}
+                                            
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.96">
                                                 <IconButton>
                                                     <InfoIcon />

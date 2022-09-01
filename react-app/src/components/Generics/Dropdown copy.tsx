@@ -15,10 +15,6 @@ interface DropdownProps<T> {
     getOptionsLabel: (option: T) => string
     displayLabel: string
     initValue?: T
-
-
-
-
 }
 
 export interface CustomFormikProps {

@@ -3,6 +3,9 @@ export interface Search {
     typeCode : Codes | undefined 
     formatCode : Codes | undefined
     healthcareFacilityTypeCode : Codes | undefined
+    eventCode : Codes | undefined
+    practiceSettingCode : Codes | undefined
+
 
 }
 
