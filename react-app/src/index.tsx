@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
-import { CredentialInfoAPI } from './feature/CredentialAPI/redux/CredentialInfoApiSlice';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { ApiSlice } from './feature/CredentialAPI/redux/ApiSlice';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-<ApiProvider api={CredentialInfoAPI}>
+<ApiProvider api={ApiSlice}>
 <App />
 </ApiProvider>
 

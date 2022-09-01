@@ -3,7 +3,7 @@ import { Formik, Form, Field, getIn } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Tooltip } from '@mui/material';
-import { useGetIDsforOwnerQuery } from '../CredentialAPI/redux/CredentialInfoApiSlice';
+import { useGetIDsForOwnerQuery } from '../CredentialAPI/redux/CredentialInfoApiSlice';
 import Loading from '../../components/loading';
 import { ID } from '../../models/Searches/Search';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ import InfoIcon from '@mui/icons-material/Info';
 
 export const ValidationSchemaExample = (props: any) => {
     const { t, i18n } = useTranslation();
-    const { data, isLoading, isSuccess, isError, error } = useGetIDsforOwnerQuery(props.sessionID)
+    const { data, isLoading, isSuccess, isError, error } = useGetIDsForOwnerQuery(props.sessionID)
     const navigate = useNavigate()
     const helperText = getIn(props.touched, props.fieldName) && getIn(props.errors, props.fieldName)
 

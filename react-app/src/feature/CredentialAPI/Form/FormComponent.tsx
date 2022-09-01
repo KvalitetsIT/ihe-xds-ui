@@ -11,40 +11,119 @@ import { Stack } from '@mui/system';
 import InfoIcon from '@mui/icons-material/Info';
 import Loading from '../../../components/loading';
 import DatePickComponent from '../DatePickComponent';
-import { useGetIDsforOwnerQuery } from '../redux/CredentialInfoApiSlice';
+import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
+import { Search, Codes, ID } from '../../../models/Searches/Search';
+import Dropdown from '../../../components/Generics/Dropdown copy';
+import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery } from '../redux/CodesApSlicei';
 
 
 
+const GetTypeCodes = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetTypeCodesQuery()
+
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Type Code'}
+                getOptionsLabel={(option: Codes) =>  option?.name}
+                options={data}
+                fieldName={'typeCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
+
+const GetFormatCodes = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetFormatCodesQuery()
+
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Format Code'}
+                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                options={data}
+                fieldName={'formatCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
+
+const GetHealthcareFacilityTypeCode = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetHealthCareFacilityTypeCodeQuery()
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Healthcare Facility Type Code'}
+                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                options={data}
+                fieldName={'healthcareFacilityTypeCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
 
 
 
 
 
 export const FormComponent = (props: any) => {
-    const { t, i18n } = useTranslation();
-    const { data, isLoading, isSuccess, isError, error } = useGetIDsforOwnerQuery(props.sessionID)
+    const { t } = useTranslation();
+    const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
     const navigate = useNavigate()
-    const helperText = getIn(props.touched, props.fieldName) && getIn(props.errors, props.fieldName)
+    const helperText: string = getIn(props.touched, props.fieldName) && getIn(props.errors, props.fieldName)
 
 
 
     const SignupSchema = Yup.object().shape({
-        certificate: Yup.string()
+        certificate: Yup.object().nullable()
             .required(t('Required'))
     });
     if (isLoading) {
         return Loading()
     }
     else if (isSuccess) {
+
+        const codeTemplate: Codes = {
+            code: "",
+            name: "",
+            scheme: ""
+        }
+
+        const searchObj: Search = {
+            certificate: data[0],
+            typeCode: codeTemplate,
+            formatCode: codeTemplate,
+            healthcareFacilityTypeCode: codeTemplate,
+
+        }
+
         return (
             <div className='form-panel-body'>
                 <Formik
-                    initialValues={{
-                        certificate: data[0].id,
-                    }}
+                    initialValues={searchObj}
                     validationSchema={SignupSchema}
-                    onSubmit={values => {
+                    onSubmit={(values) => {
                         // same shape as initial values
+                        console.log("HELO")
+                        console.log(values)
 
                     }}
                 >
@@ -53,28 +132,15 @@ export const FormComponent = (props: any) => {
                             <div className='first-row'>
                                 <Grid container direction={"row"} spacing={3} >
                                     <Grid item xs={8}>
-                                        <FormControl style={{ width: 235 }}>
-                                            <InputLabel id="certificate-select-label">Certficate</InputLabel>
-                                            <Select
-                                                labelId="certificate-select-label"
-                                                id="certificate-select"
-                                                defaultValue={getIn(formikProps.values, "certificate")}
-                                                label="Certficate"
-                                                onChange={formikProps.handleChange}
-                                                name={formikProps.values.certificate}
+                                        <Dropdown
 
-                                            >
-                                                {data!.map((item, index: number) => {
-                                                    return (
-                                                        <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                    )
-                                                })}
-
-                                            </Select>
-                                            <FormHelperText error={helperText != undefined} >
-                                                {helperText}
-                                            </FormHelperText>
-                                        </FormControl>
+                                            initValue={data[0]}
+                                            displayLabel={'Certificate'}
+                                            getOptionsLabel={(option) => option?.id}
+                                            options={data}
+                                            fieldName={'certificate'}
+                                            helperText={helperText}
+                                            {...formikProps} />
                                     </Grid>
                                     <Grid item>
                                         <Button onClick={() => navigate("/upload-certifacte")}>Upload your own certificate</Button>
@@ -93,27 +159,7 @@ export const FormComponent = (props: any) => {
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Stack direction="row" spacing={1.5}>
-                                            <FormControl fullWidth>
-                                                <InputLabel id="type-code-select-label">Type Code</InputLabel>
-                                                <Select
-                                                    labelId="type-code-select-label"
-                                                    id="type-code-select"
-                                                    //defaultValue={getIn(formikProps.values, "certificate")}
-                                                    label="Type Code"
-                                                //onChange={formikProps.handleChange}
-                                                //name={formikProps.values.certificate}
-                                                >
-                                                    {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
-
-                                                </Select>
-                                                <FormHelperText error={helperText != undefined} >
-                                                    {helperText}
-                                                </FormHelperText>
-                                            </FormControl>
+                                            {GetTypeCodes(helperText, formikProps)}
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.1">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -128,27 +174,7 @@ export const FormComponent = (props: any) => {
                                     alignItems="center" >
                                     <Grid item xs={6}>
                                         < Stack direction="row" spacing={1.5}>
-                                            <FormControl style={{width : 235}}>
-                                                <InputLabel id="format-code-select-label">Format Code</InputLabel>
-                                                <Select
-                                                    labelId="format-code-select-label"
-                                                    id="format-code-select"
-                                                    //defaultValue={getIn(formikProps.values, "certificate")}
-                                                    label="Format Code"
-                                                //onChange={formikProps.handleChange}
-                                                //name={formikProps.values.certificate}
-                                                >
-                                                    {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
-
-                                                </Select>
-                                                <FormHelperText error={helperText != undefined} >
-                                                    {helperText}
-                                                </FormHelperText>
-                                            </FormControl>
+                                            {GetFormatCodes(helperText, formikProps)}
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 1.2.208.184.100.10">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -158,27 +184,7 @@ export const FormComponent = (props: any) => {
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
-                                            <FormControl fullWidth>
-                                                <InputLabel id="type-code-select-label">Healthcare Facility Type Code</InputLabel>
-                                                <Select
-                                                    labelId="healthcare-facility-type-code-select-label"
-                                                    id="healthcare-facility-type-code-select"
-                                                    //defaultValue={getIn(formikProps.values, "certificate")}
-                                                    label="Healthcare Facility Type Code"
-                                                //onChange={formikProps.handleChange}
-                                                //name={formikProps.values.certificate}
-                                                >
-                                                    {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
-
-                                                </Select>
-                                                <FormHelperText error={helperText != undefined} >
-                                                    {helperText}
-                                                </FormHelperText>
-                                            </FormControl>
+                                        {GetHealthcareFacilityTypeCode(helperText, formikProps)}
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.96">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -352,7 +358,7 @@ export const FormComponent = (props: any) => {
                                     alignItems="center">
                                     <Grid item xs={12}>
                                         <Stack direction={"row"} justifyContent={"center"}  >
-                                            <Button>Search</Button>
+                                            <Button type={'submit'}>Search</Button>
                                             <Button>Reset</Button>
                                         </Stack>
                                     </Grid>
