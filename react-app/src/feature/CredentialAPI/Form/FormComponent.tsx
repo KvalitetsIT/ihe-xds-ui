@@ -14,7 +14,7 @@ import DatePickComponent from '../DatePickComponent';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
 import { Search, Codes, ID } from '../../../models/Searches/Search';
 import Dropdown from '../../../components/Generics/Dropdown copy';
-import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery } from '../redux/CodesApSlicei';
+import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery } from '../redux/CodesApSlicei';
 
 
 
@@ -27,7 +27,7 @@ const GetTypeCodes = (helperText: string, formikProps: any) => {
             <Dropdown
                 initValue={undefined}
                 displayLabel={'Type Code'}
-                getOptionsLabel={(option: Codes) =>  option?.name}
+                getOptionsLabel={(option: Codes) => option?.name}
                 options={data}
                 fieldName={'typeCode'}
                 helperText={helperText}
@@ -48,7 +48,7 @@ const GetFormatCodes = (helperText: string, formikProps: any) => {
             <Dropdown
                 initValue={undefined}
                 displayLabel={'Format Code'}
-                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
                 fieldName={'formatCode'}
                 helperText={helperText}
@@ -68,7 +68,7 @@ const GetHealthcareFacilityTypeCode = (helperText: string, formikProps: any) => 
             <Dropdown
                 initValue={undefined}
                 displayLabel={'Healthcare Facility Type Code'}
-                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
                 fieldName={'healthcareFacilityTypeCode'}
                 helperText={helperText}
@@ -88,7 +88,7 @@ const GetEventCode = (helperText: string, formikProps: any) => {
             <Dropdown
                 initValue={undefined}
                 displayLabel={'Event Code (scheme)'}
-                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
                 fieldName={'eventCode'}
                 helperText={helperText}
@@ -108,9 +108,29 @@ const GetPracticeSettingCode = (helperText: string, formikProps: any) => {
             <Dropdown
                 initValue={undefined}
                 displayLabel={'Practice Setting Code'}
-                getOptionsLabel={(option: Codes) => " " + option?.code +  " - " + option?.name}
+                getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
                 fieldName={'practiceSettingCode'}
+                helperText={helperText}
+                {...formikProps} />
+        )
+    }
+    else {
+        return null
+    }
+}
+
+const GetAvailabilityStatus = (helperText: string, formikProps: any) => {
+    const { data, isSuccess } = useGetAvailabilityStatusQuery()
+
+    if (isSuccess) {
+        return (
+            <Dropdown
+                initValue={undefined}
+                displayLabel={'Availability Status'}
+                getOptionsLabel={(option: Codes) => option?.name}
+                options={data}
+                fieldName={'availabilityStatus'}
                 helperText={helperText}
                 {...formikProps} />
         )
@@ -132,7 +152,7 @@ export const FormComponent = (props: any) => {
 
 
 
-    const SignupSchema = Yup.object().shape({
+    const FormSchema = Yup.object().shape({
         certificate: Yup.object().nullable()
             .required(t('Required'))
     });
@@ -152,8 +172,9 @@ export const FormComponent = (props: any) => {
             typeCode: codeTemplate,
             formatCode: codeTemplate,
             healthcareFacilityTypeCode: codeTemplate,
-            eventCode : codeTemplate,
-            practiceSettingCode : codeTemplate
+            eventCode: codeTemplate,
+            practiceSettingCode: codeTemplate,
+            availabilityStatus: codeTemplate
 
         }
 
@@ -161,7 +182,7 @@ export const FormComponent = (props: any) => {
             <div className='form-panel-body'>
                 <Formik
                     initialValues={searchObj}
-                    validationSchema={SignupSchema}
+                    validationSchema={FormSchema}
                     onSubmit={(values) => {
                         // same shape as initial values
                         console.log(values)
@@ -225,7 +246,7 @@ export const FormComponent = (props: any) => {
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
-                                        {GetHealthcareFacilityTypeCode(helperText, formikProps)}
+                                            {GetHealthcareFacilityTypeCode(helperText, formikProps)}
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.96">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -253,7 +274,7 @@ export const FormComponent = (props: any) => {
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
                                             {GetPracticeSettingCode(helperText, formikProps)}
-                                            
+
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.96">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -331,27 +352,8 @@ export const FormComponent = (props: any) => {
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
                                     <Grid item xs={12}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="availability-status-select-label">Availability Status</InputLabel>
-                                            <Select
-                                                labelId="availability-status-select-label"
-                                                id="availability-status-select"
-                                                //defaultValue={getIn(formikProps.values, "certificate")}
-                                                label="Availability Status"
-                                            //onChange={formikProps.handleChange}
-                                            //name={formikProps.values.certificate}
-                                            >
-                                                {/*data!.map((item, index: number) => {
-                                                return (
-                                                    <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
-                                                )
-                                            })*/}
+                                        {GetAvailabilityStatus(helperText, formikProps)}
 
-                                            </Select>
-                                            <FormHelperText error={helperText != undefined} >
-                                                {helperText}
-                                            </FormHelperText>
-                                        </FormControl>
                                     </Grid>
                                 </Grid>
                             </div>

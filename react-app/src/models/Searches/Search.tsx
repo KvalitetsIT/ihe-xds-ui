@@ -5,6 +5,7 @@ export interface Search {
     healthcareFacilityTypeCode : Codes | undefined
     eventCode : Codes | undefined
     practiceSettingCode : Codes | undefined
+    availabilityStatus : Codes | undefined
 
 
 }

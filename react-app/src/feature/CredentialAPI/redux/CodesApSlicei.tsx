@@ -64,10 +64,20 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Practise setting code could not be fetched" }),
                 }),
                 providesTags: ['Codes']
-            })
+            }),
+            getAvailabilityStatus: builder.query<Codes[], void>({
+                query: () => ({
 
+                    // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
+                    url: `http://localhost:8080` + '/v1/codes/availabilityStatusCode',
+                    method: 'GET',
+                    responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: " Availability status could not be fetched" }),
+                }),
+                providesTags: ['Codes']
+            })
         })
     }
 )
 
-export const {useGetTypeCodesQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery} = exendendApiSlice
+export const {useGetTypeCodesQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery,
+     useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery} = exendendApiSlice
