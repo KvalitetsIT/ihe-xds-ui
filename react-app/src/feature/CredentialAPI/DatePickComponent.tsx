@@ -4,59 +4,41 @@ import { useState } from "react";
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { Moment } from "moment";
+import { CustomFormikProps } from "../../components/Generics/CustomFormProps";
+import { getIn } from "formik";
 
 
-
-/*function DatePickComponent(props : any) {
-    const [date, setDate] = useState(null)
-
-    const handleChange = (e : any) =>{
-      setDate(e.target.value)
-    }
+interface DatePickerProps {
+  displayLabel: string
+  fieldName: string
+  id : string
+}
 
 
-    return (
-        <>
-        <TextField
-        id={props.id}
-        label={props.startDate}
-        type="date"
-        defaultValue={date}
-        sx={{ width: 220 }}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={handleChange}
-      />
-
-        </>
-    )
-
-
-
-
-}*/
-
-function DatePickComponent(props : any) {
+function DatePickComponent(props: CustomFormikProps & DatePickerProps) {
   const [value, setValue] = useState<Moment | null>(null);
+  const valueFormik = getIn(props.values, props.fieldName)
+
 
 
 
   return (
-      <>
+    <div id={props.id}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
-      <DatePicker
-    label={props.label}
-    value={value}
-    onChange={(newValue) => {
-      setValue(newValue);
-    }}
-    renderInput={(params) => <TextField {...params} />}
-    
-  />
-    </LocalizationProvider>
+        <DatePicker
+          label={props.displayLabel}
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue);
+            
+            props.setFieldValue(props.fieldName, newValue?.toDate())
+          }}
+          renderInput={(params) => <TextField {...params} />}
 
-      </>
+        />
+      </LocalizationProvider>
+
+    </div>
   )
 
 

@@ -6,7 +6,13 @@ export interface Search {
     eventCode : Codes | undefined
     practiceSettingCode : Codes | undefined
     availabilityStatus : Codes | undefined
-
+    documentType? : boolean[] 
+    serviceStart? : Date[]
+    serviceEnd? : Date[]
+    patientId? : String
+    uniqueId? : String 
+    eventCodeInput? : String
+    
 
 }
 

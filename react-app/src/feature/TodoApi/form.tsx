@@ -16,7 +16,7 @@ import InfoIcon from '@mui/icons-material/Info';
 
 
 
-
+/*
 
 export const ValidationSchemaExample = (props: any) => {
     const { t, i18n } = useTranslation();
@@ -102,7 +102,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                             </Select>
                                             <FormHelperText error={helperText != undefined} >
@@ -132,7 +132,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                             </Select>
                                             <FormHelperText error={helperText != undefined} >
@@ -162,7 +162,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                             </Select>
                                             <FormHelperText error={helperText != undefined} >
@@ -194,7 +194,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                         </Select>
                                         <FormHelperText error={helperText != undefined} >
@@ -217,7 +217,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                         </Select>
                                         <FormHelperText error={helperText != undefined} >
@@ -231,7 +231,7 @@ export const ValidationSchemaExample = (props: any) => {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    {/* Might have API data instead */}
+                                    {/* Might have API data instead *//*}
                                     <FormControl>
                                         <FormLabel id="document-type-chreckbox-label">Document Type</FormLabel>
                                         <Box sx={{ display: 'flex', gap: 3 }}>
@@ -280,7 +280,7 @@ export const ValidationSchemaExample = (props: any) => {
                                                 return (
                                                     <MenuItem key={index} value={item.id}>{item.id}</MenuItem>
                                                 )
-                                            })*/}
+                                            })*//*}
 
                                         </Select>
                                         <FormHelperText error={helperText != undefined} >
@@ -310,3 +310,4 @@ export const ValidationSchemaExample = (props: any) => {
         return null
     }
 };
+*/

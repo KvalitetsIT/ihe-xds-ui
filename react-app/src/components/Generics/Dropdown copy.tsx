@@ -1,10 +1,6 @@
-import { FormControl, InputLabel, Select, FormHelperText, MenuItem, SelectChangeEvent, Typography, Autocomplete, TextField } from "@mui/material"
-import { QueryDefinition, BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta } from "@reduxjs/toolkit/dist/query";
-import { UseQuery } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import { FormControl,  FormHelperText, Typography, Autocomplete, TextField } from "@mui/material"
 import { getIn } from "formik";
-
-import React, { ReactNode } from "react";
-import { object } from "yup";
+import { CustomFormikProps } from "./CustomFormProps";
 
 
 
@@ -14,16 +10,9 @@ interface DropdownProps<T> {
     helperText: string
     getOptionsLabel: (option: T) => string
     displayLabel: string
-    initValue?: T
 }
 
-export interface CustomFormikProps {
-    values: any
-    touched: any
-    errors: any
-    handleChange: any
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
-}
+
 
 
 export default function Dropdown<T>(props: CustomFormikProps & DropdownProps<T>) {
@@ -36,7 +25,7 @@ export default function Dropdown<T>(props: CustomFormikProps & DropdownProps<T>)
             onChange={(e, value) => props.setFieldValue(props.fieldName, value)}
             options={props.options ?? []}
             getOptionLabel={props.getOptionsLabel}
-            defaultValue={value}
+            value={value}
             renderInput={(params) => <TextField {...params} label={props.displayLabel} />}
 
         //name={formikProps.values.}

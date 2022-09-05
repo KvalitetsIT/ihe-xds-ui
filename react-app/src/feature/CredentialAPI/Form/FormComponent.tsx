@@ -1,7 +1,6 @@
 
 
 import './FormStyle.css';
-import React from 'react';
 import { Formik, Form, Field, getIn } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +13,12 @@ import DatePickComponent from '../DatePickComponent';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
 import { Search, Codes, ID } from '../../../models/Searches/Search';
 import Dropdown from '../../../components/Generics/Dropdown copy';
-import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery } from '../redux/CodesApSlicei';
+import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery, useGetObjectTypeQuery } from '../redux/CodesApSlicei';
+import { ChangeEventHandler } from 'react';
+
+
+
+
 
 
 
@@ -140,6 +144,46 @@ const GetAvailabilityStatus = (helperText: string, formikProps: any) => {
     }
 }
 
+const GetDocumentTypes = (formikProps: any, fieldName: any) => {
+    const { data, isSuccess } = useGetObjectTypeQuery()
+    const value = getIn(formikProps.values, fieldName)
+
+
+    if (isSuccess) {
+        return (
+            <div className='check-box-row'>
+                <FormControl>
+                    <FormLabel id="document-type-chreckbox-label">Document Type</FormLabel>
+                    <Box sx={{ display: 'flex', gap: 3 }}>
+                        <FormGroup row >
+
+                            {data.map((element, index) => {
+                                return (
+
+                                    <FormControlLabel
+                                        key={index}
+                                        control={
+                                            <Checkbox
+                                                name={fieldName + "[" + `${index}` + "]"}
+                                                onChange={formikProps.handleChange
+                                                }
+                                                checked={formikProps.values.documentType[index]}
+                                            />}
+                                        label={element.name} />
+                                )
+                            })}
+                        </FormGroup>
+                    </Box>
+                </FormControl>
+            </div>
+        )
+    }
+    else {
+        return null
+    }
+
+}
+
 
 
 
@@ -148,14 +192,38 @@ export const FormComponent = (props: any) => {
     const { t } = useTranslation();
     const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
     const navigate = useNavigate()
+
+
+
+
+
     const helperText: string = getIn(props.touched, props.fieldName) && getIn(props.errors, props.fieldName)
+
+
+
+
+
+
+
+    const makeNewSearchObject = (object: Search) => {
+        const newObject = object
+
+
+        console.log(newObject)
+
+
+        return newObject
+
+    }
 
 
 
     const FormSchema = Yup.object().shape({
         certificate: Yup.object().nullable()
-            .required(t('Required'))
+            .required(t('Required')),
+        typeCode: Yup.object().nullable().required(t('Required'))
     });
+
     if (isLoading) {
         return Loading()
     }
@@ -174,7 +242,13 @@ export const FormComponent = (props: any) => {
             healthcareFacilityTypeCode: codeTemplate,
             eventCode: codeTemplate,
             practiceSettingCode: codeTemplate,
-            availabilityStatus: codeTemplate
+            availabilityStatus: codeTemplate,
+            documentType: [false, false],
+            eventCodeInput: undefined,
+            patientId: undefined,
+            serviceEnd: [new Date(0), new Date(0)],
+            serviceStart: [new Date(0), new Date(0)],
+            uniqueId: undefined
 
         }
 
@@ -185,18 +259,20 @@ export const FormComponent = (props: any) => {
                     validationSchema={FormSchema}
                     onSubmit={(values) => {
                         // same shape as initial values
-                        console.log(values)
+                        makeNewSearchObject(values)
+
 
                     }}
+
                 >
                     {(formikProps) => (
-                        <Form>
+                        // action endpoint or redux post request .... 
+                        <Form action='' method='POST'>
                             <div className='first-row'>
                                 <Grid container direction={"row"} spacing={3} >
                                     <Grid item xs={8}>
                                         <Dropdown
 
-                                            initValue={data[0]}
                                             displayLabel={'Certificate'}
                                             getOptionsLabel={(option) => option?.id}
                                             options={data}
@@ -214,10 +290,12 @@ export const FormComponent = (props: any) => {
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
                                     <Grid item xs={4}>
-                                        <TextField id="patient-id-tf" label="Patient ID" variant="outlined" />
+                                        <TextField id="patient-id-tf" label="Patient ID" variant="outlined" 
+                                        onChange={formikProps.handleChange}
+                                         value={getIn(formikProps.values, 'patientId')} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <TextField id="unique-id-tf" label="Unique ID" variant="outlined" />
+                                        <TextField id="unique-id-tf" label="Unique ID" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'uniqueId')} />
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Stack direction="row" spacing={1.5}>
@@ -260,7 +338,7 @@ export const FormComponent = (props: any) => {
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
                                     <Grid item xs={6}>
-                                        <TextField id="event-code-id-tf" label="Event Code (code)" variant="outlined" />
+                                        <TextField id="event-code-id-tf" label="Event Code (code)" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'eventCodeInput')} />
                                     </Grid>
                                     <Grid item xs={6}>
                                         {GetEventCode(helperText, formikProps)}
@@ -268,13 +346,11 @@ export const FormComponent = (props: any) => {
                                 </Grid>
                             </div>
                             <div className='row' >
-
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center" style={{ marginLeft: -144 }}>
                                     <Grid item xs={6}>
                                         <Stack direction="row" spacing={1.5}>
                                             {GetPracticeSettingCode(helperText, formikProps)}
-
                                             <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.96">
                                                 <IconButton>
                                                     <InfoIcon />
@@ -283,23 +359,14 @@ export const FormComponent = (props: any) => {
                                         </Stack>
                                     </Grid>
                                     <Grid item >
-                                        {/* Might have API data instead */}
-                                        <div className='check-box-row'>
-                                            <FormControl>
-                                                <FormLabel id="document-type-chreckbox-label">Document Type</FormLabel>
-                                                <Box sx={{ display: 'flex', gap: 3 }}>
-                                                    <FormGroup row>
-                                                        <FormControlLabel control={<Checkbox />} label="Stable" />
-                                                        <FormControlLabel control={<Checkbox />} label="On-demand" />
-                                                    </FormGroup>
-                                                </Box>
-                                            </FormControl>
+                                        <Stack spacing={2} direction={'row'}>
+                                            {GetDocumentTypes(formikProps, "documentType")}
                                             <Tooltip title="Hvis hverken stable eller on-demand vælges, søges der default på stable">
                                                 <IconButton>
                                                     <InfoIcon />
                                                 </IconButton>
                                             </Tooltip>
-                                        </div>
+                                        </Stack>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -310,7 +377,11 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-start-start-date'>Service Start From</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent id={"service-start-start-date"} label={"Start Date"} />
+                                                <DatePickComponent
+                                                    fieldName={'serviceStart[0]'} id={"service-start-start-date"}
+                                                    displayLabel={"Start Date"}
+                                                    {...formikProps}
+                                                />
                                             </div>
 
                                         </Stack>
@@ -318,7 +389,12 @@ export const FormComponent = (props: any) => {
                                     <Grid item xs={6}>
                                         <Stack spacing={2}>
                                             <label htmlFor='service-start-end-date'>To</label>
-                                            <div className='dt-picker'>                                        <DatePickComponent id={"service-start-end-date"} label={"End Date"} />
+                                            <div className='dt-picker'>
+                                                <DatePickComponent
+                                                    fieldName={'serviceStart[1]'} id={"service-start-end-date'"}
+                                                    displayLabel={"End Date"}
+                                                    {...formikProps}
+                                                />
                                             </div>
                                         </Stack>
 
@@ -332,7 +408,12 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-stop-start-date'>Service Stop From</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent id={"service-stop-start-date"} label={"Start Date"} />
+
+                                                <DatePickComponent
+                                                    fieldName={'serviceEnd[0]'} id={"service-stop-start-date"}
+                                                    displayLabel={"Start Date"}
+                                                    {...formikProps}
+                                                />
                                             </div>
 
                                         </Stack>
@@ -341,7 +422,10 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-stop-end-date'>To</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent id={"service-stop-end-date"} label={"End Date"} />
+                                                <DatePickComponent
+                                                    fieldName={'serviceEnd[1]'} id={"service-stop-end-date"}
+                                                    displayLabel={"End Date"}
+                                                    {...formikProps} />
                                             </div>
                                         </Stack>
 
@@ -360,10 +444,15 @@ export const FormComponent = (props: any) => {
                             <div className='row'>
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} >
                                         <Stack direction={"row"} justifyContent={"center"}  >
                                             <Button type={'submit'}>Search</Button>
-                                            <Button>Reset</Button>
+                                            <Button type='reset'
+
+                                            >Reset</Button>
+
+                    <button type="button" onClick={formikProps.handleReset}>reset form</button>
+
                                         </Stack>
                                     </Grid>
                                 </Grid>

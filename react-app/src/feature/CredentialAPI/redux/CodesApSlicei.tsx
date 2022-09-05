@@ -74,10 +74,20 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: " Availability status could not be fetched" }),
                 }),
                 providesTags: ['Codes']
+            }),
+            getObjectType: builder.query<Codes[], void>({
+                query: () => ({
+
+                    // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
+                    url: `http://localhost:8080` + '/v1/codes/objectTypeCode',
+                    method: 'GET',
+                    responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: " Object type could not be fetched" }),
+                }),
+                providesTags: ['Codes']
             })
         })
     }
 )
 
 export const {useGetTypeCodesQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery,
-     useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery} = exendendApiSlice
+     useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery, useGetObjectTypeQuery} = exendendApiSlice
