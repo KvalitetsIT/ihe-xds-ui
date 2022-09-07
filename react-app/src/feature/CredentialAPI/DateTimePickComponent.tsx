@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { Moment } from "moment";
 import { CustomFormikProps } from "../../components/Generics/CustomFormProps";
 import { getIn } from "formik";
@@ -15,7 +15,7 @@ interface DatePickerProps {
 }
 
 
-function DatePickComponent(props: CustomFormikProps & DatePickerProps) {
+function DateTimePickComponent(props: CustomFormikProps & DatePickerProps) {
   const [value, setValue] = useState<Moment | null>(null);
   const valueFormik = getIn(props.values, props.fieldName)
 
@@ -25,9 +25,10 @@ function DatePickComponent(props: CustomFormikProps & DatePickerProps) {
   return (
     <div id={props.id}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
-        <DatePicker
+        <DateTimePicker
           label={props.displayLabel}
           value={value}
+          ampm={false}
           onChange={(newValue) => {
             setValue(newValue);
             
@@ -46,4 +47,4 @@ function DatePickComponent(props: CustomFormikProps & DatePickerProps) {
 
 }
 
-export default DatePickComponent
+export default DateTimePickComponent

@@ -1,17 +1,19 @@
+
+// Start object,
 export interface Search {
     certificate? : ID
-    typeCode : Codes | undefined 
-    formatCode : Codes | undefined
-    healthcareFacilityTypeCode : Codes | undefined
-    eventCode : Codes | undefined
-    practiceSettingCode : Codes | undefined
-    availabilityStatus : Codes | undefined
+    typeCode? : Codes 
+    formatCode? : Codes 
+    healthcareFacilityTypeCode? : Codes 
+    eventCode? : Codes 
+    practiceSettingCode? : Codes 
+    availabilityStatus? : Codes 
     documentType? : boolean[] 
     serviceStart? : Date[]
     serviceEnd? : Date[]
-    patientId? : String
-    uniqueId? : String 
-    eventCodeInput? : String
+    patientId? : string
+    uniqueId? : string 
+    eventCodeInput? : string
     
 
 }
@@ -26,3 +28,11 @@ export interface Codes {
     name : string
     scheme : string
 }
+
+
+export interface CodeQuery {
+    code : string
+    codeScheme : string
+}
+
+

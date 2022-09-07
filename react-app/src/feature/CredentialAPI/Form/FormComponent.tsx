@@ -9,12 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/system';
 import InfoIcon from '@mui/icons-material/Info';
 import Loading from '../../../components/loading';
-import DatePickComponent from '../DatePickComponent';
+import DatePickComponent from '../DateTimePickComponent';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
 import { Search, Codes, ID } from '../../../models/Searches/Search';
 import Dropdown from '../../../components/Generics/Dropdown copy';
 import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery, useGetObjectTypeQuery } from '../redux/CodesApSlicei';
 import { ChangeEventHandler } from 'react';
+import formatDateTime from '../../DateTimeFormatter';
+import { healthcareProfessionalContext, iti18QueryParameter, iti18Request } from '../../../models/Searches/Iti18Request';
+import { usePostFormMutation } from '../redux/SearchApiSlice';
+import DateTimePickComponent from '../DateTimePickComponent';
 
 
 
@@ -191,7 +195,10 @@ const GetDocumentTypes = (formikProps: any, fieldName: any) => {
 export const FormComponent = (props: any) => {
     const { t } = useTranslation();
     const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
+    const [postForm] = usePostFormMutation();
     const navigate = useNavigate()
+
+
 
 
 
@@ -205,16 +212,61 @@ export const FormComponent = (props: any) => {
 
 
 
-    const makeNewSearchObject = (object: Search) => {
-        const newObject = object
+    const makeSearchQueryObject = (object: Search) => {
+        // Add unique ID later
+
+        const documentTypes: string[] = []
+        if (object.documentType![0] === false && object.documentType![1] === false) {
+            documentTypes.push("STABLE")
+        } else if (object.documentType![0] === true && object.documentType![1] === false) {
+            documentTypes.push("STABLE")
+        } else if (object.documentType![0] === false && object.documentType![1] === true) {
+            documentTypes.push("ON-DEMAND")
+        } else {
+            documentTypes.push("STABLE")
+            documentTypes.push("ON-DEMAND")
 
 
-        console.log(newObject)
+        }
 
+        const searchQuery: iti18QueryParameter = {
+            patientId: object!.patientId,
+            typeCode: {
+                code: object.typeCode!.code,
+                codeScheme: object.typeCode!.scheme
+            },
+            formatCode: {
+                code: object.formatCode!.code,
+                codeScheme: object.formatCode!.scheme
 
-        return newObject
+            },
+            healthcareFacilityTypeCode: {
+                code: object.healthcareFacilityTypeCode!.code,
+                codeScheme: object.healthcareFacilityTypeCode!.scheme
+
+            },
+            eventCode: {
+                code: object.eventCodeInput!,
+                codeScheme: object.formatCode!.code
+
+            },
+            practiceSettingCode: {
+                code: object.practiceSettingCode!.code,
+                codeScheme: object.practiceSettingCode!.scheme
+            },
+            documentType: documentTypes,
+            startFromDate: formatDateTime(object.serviceStart![0]),
+            startToDate: formatDateTime(object.serviceStart![1]),
+            endFromDate: formatDateTime(object.serviceEnd![0]),
+            endToDate: formatDateTime(object.serviceEnd![1]),
+            availabilityStatus: object.availabilityStatus!.code
+        }
+
+        return searchQuery
 
     }
+
+
 
 
 
@@ -244,11 +296,11 @@ export const FormComponent = (props: any) => {
             practiceSettingCode: codeTemplate,
             availabilityStatus: codeTemplate,
             documentType: [false, false],
-            eventCodeInput: undefined,
-            patientId: undefined,
+            eventCodeInput: "",
+            patientId: "",
             serviceEnd: [new Date(0), new Date(0)],
             serviceStart: [new Date(0), new Date(0)],
-            uniqueId: undefined
+            uniqueId: ""
 
         }
 
@@ -259,7 +311,26 @@ export const FormComponent = (props: any) => {
                     validationSchema={FormSchema}
                     onSubmit={(values) => {
                         // same shape as initial values
-                        makeNewSearchObject(values)
+                        let parameters: iti18QueryParameter = makeSearchQueryObject(values)
+                        let context: healthcareProfessionalContext = {
+                            actingUserId: '',
+                            responsibleUserId: '',
+                            authorizationCode: '',
+                            consentOverride: false,
+                            organisationCode: ''
+                        }
+                        let id: string = values.certificate!.id
+
+                        let request: iti18Request = {
+                            queryParameters: parameters,
+                            credentialId: id,
+                            context: context
+                        }
+
+
+
+                        postForm(request)
+                        console.log(request)
 
 
                     }}
@@ -290,12 +361,12 @@ export const FormComponent = (props: any) => {
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
                                     <Grid item xs={4}>
-                                        <TextField id="patient-id-tf" label="Patient ID" variant="outlined" 
-                                        onChange={formikProps.handleChange}
-                                         value={getIn(formikProps.values, 'patientId')} />
+                                        <TextField id="patientId" name='patientId' label="Patient ID" variant="outlined"
+                                            onChange={formikProps.handleChange}
+                                            value={getIn(formikProps.values, 'patientId')} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <TextField id="unique-id-tf" label="Unique ID" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'uniqueId')} />
+                                        <TextField id="uniqueId" name='uniqueId' label="Unique ID" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'uniqueId')} />
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Stack direction="row" spacing={1.5}>
@@ -338,7 +409,7 @@ export const FormComponent = (props: any) => {
                                 <Grid container direction={"row"} justifyContent="center"
                                     alignItems="center">
                                     <Grid item xs={6}>
-                                        <TextField id="event-code-id-tf" label="Event Code (code)" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'eventCodeInput')} />
+                                        <TextField id="eventCodeInput" name='eventCodeInput' label="Event Code (code)" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'eventCodeInput')} />
                                     </Grid>
                                     <Grid item xs={6}>
                                         {GetEventCode(helperText, formikProps)}
@@ -377,7 +448,7 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-start-start-date'>Service Start From</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent
+                                                <DateTimePickComponent
                                                     fieldName={'serviceStart[0]'} id={"service-start-start-date"}
                                                     displayLabel={"Start Date"}
                                                     {...formikProps}
@@ -390,7 +461,7 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-start-end-date'>To</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent
+                                                <DateTimePickComponent
                                                     fieldName={'serviceStart[1]'} id={"service-start-end-date'"}
                                                     displayLabel={"End Date"}
                                                     {...formikProps}
@@ -409,7 +480,7 @@ export const FormComponent = (props: any) => {
                                             <label htmlFor='service-stop-start-date'>Service Stop From</label>
                                             <div className='dt-picker'>
 
-                                                <DatePickComponent
+                                                <DateTimePickComponent
                                                     fieldName={'serviceEnd[0]'} id={"service-stop-start-date"}
                                                     displayLabel={"Start Date"}
                                                     {...formikProps}
@@ -422,7 +493,7 @@ export const FormComponent = (props: any) => {
                                         <Stack spacing={2}>
                                             <label htmlFor='service-stop-end-date'>To</label>
                                             <div className='dt-picker'>
-                                                <DatePickComponent
+                                                <DateTimePickComponent
                                                     fieldName={'serviceEnd[1]'} id={"service-stop-end-date"}
                                                     displayLabel={"End Date"}
                                                     {...formikProps} />
@@ -451,7 +522,7 @@ export const FormComponent = (props: any) => {
 
                                             >Reset</Button>
 
-                    <button type="button" onClick={formikProps.handleReset}>reset form</button>
+                                            <button type="button" onClick={formikProps.handleReset}>reset form</button>
 
                                         </Stack>
                                     </Grid>
