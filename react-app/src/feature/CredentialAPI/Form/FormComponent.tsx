@@ -575,32 +575,31 @@ function handleTimes(object: Search) {
 
 
 
-    let nullFormat : string = "0000-00-00T00:00:00Z" 
-
+    
     let startFromDateDate, startToDateDate, endFromDateDate , endToDateDate 
 
     if (object.serviceStart[0]!) {
          startFromDateDate = formatDateTime(object.serviceStart[0]!)
-         console.log(startFromDateDate)
+         
 
     } else {
-         startFromDateDate = nullFormat
+         startFromDateDate = null
     }
 
     if (object.serviceStart[1]! ) {
          startToDateDate = formatDateTime(object.serviceStart[1]!)
     }else {
-         startToDateDate = nullFormat
+         startToDateDate = null
     }
     if (object.serviceStart[2]!) {
          endFromDateDate = formatDateTime(object.serviceStart[2]!)
     }else {
-         endFromDateDate = nullFormat
+         endFromDateDate = null
     }
     if (object.serviceStart[3]!) {
          endToDateDate = formatDateTime(object.serviceStart[3]!)
     }else {
-         endToDateDate = nullFormat
+         endToDateDate = null
     }
 
     return [startFromDateDate, startToDateDate, endFromDateDate , endToDateDate]
