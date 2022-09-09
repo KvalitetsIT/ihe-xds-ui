@@ -16,7 +16,7 @@ interface DatePickerProps {
 
 
 function DateTimePickComponent(props: CustomFormikProps & DatePickerProps) {
-  const [value, setValue] = useState<Moment | null>(null);
+  //const [value, setValue] = useState<Moment | null>(null);
   const valueFormik = getIn(props.values, props.fieldName)
 
 
@@ -27,10 +27,10 @@ function DateTimePickComponent(props: CustomFormikProps & DatePickerProps) {
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <DateTimePicker
           label={props.displayLabel}
-          value={value}
+          value={valueFormik}
           ampm={false}
           onChange={(newValue) => {
-            setValue(newValue);
+            //setValue(newValue);
             
             props.setFieldValue(props.fieldName, newValue?.toDate())
           }}

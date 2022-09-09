@@ -1,3 +1,4 @@
+import { Moment } from "moment"
 
 // Start object,
 export interface Search {
@@ -9,8 +10,8 @@ export interface Search {
     practiceSettingCode? : Codes 
     availabilityStatus? : Codes 
     documentType? : boolean[] 
-    serviceStart? : Date[]
-    serviceEnd? : Date[]
+    serviceStart : Moment[] | null[]
+    serviceEnd : Moment[] | null[]
     patientId? : string
     uniqueId? : string 
     eventCodeInput? : string

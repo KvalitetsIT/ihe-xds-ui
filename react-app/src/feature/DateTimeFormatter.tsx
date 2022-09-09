@@ -1,18 +1,26 @@
-export default function formatDateTime(date : Date) {
+import { Moment } from "moment"
+
+export default function formatDateTime(date : Moment) {
+
+
+
+    let newdate : Date  = new Date(Date.parse("" + date.toString()))
+    
+ 
 
     let day, month, year, hour, minute, second: number
 
-    day = date.getDate()
+    day = newdate.getDate()
 
-    month =  date.getMonth() + 1
+    month =  newdate.getMonth() + 1
 
-    year = date.getFullYear()
+    year = newdate.getFullYear()
 
-    hour = date.getHours()
+    hour = newdate.getHours()
 
-    minute= date.getMinutes()
+    minute= newdate.getMinutes()
 
-    second = date.getSeconds()
+    second = newdate.getSeconds()
 
 
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}Z`

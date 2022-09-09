@@ -231,6 +231,13 @@ export const FormComponent = (props: any) => {
 
 
         }
+        let [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate] = handleTimes(object)
+
+        
+
+       
+
+
 
         const searchQuery: iti18QueryParameter = {
             patientId: object!.patientId,
@@ -258,14 +265,15 @@ export const FormComponent = (props: any) => {
                 codeScheme: object.practiceSettingCode!.scheme
             },
             documentType: documentTypes,
-            startFromDate: formatDateTime(object.serviceStart![0]),
-            startToDate: formatDateTime(object.serviceStart![1]),
-            endFromDate: formatDateTime(object.serviceEnd![0]),
-            endToDate: formatDateTime(object.serviceEnd![1]),
+            startFromDate: startFromDateDate,
+            startToDate: startToDateDate,
+            endFromDate: endFromDateDate,
+            endToDate: endToDateDate,
             availabilityStatus: object.availabilityStatus!.code
         }
 
         return searchQuery
+        //return null
 
     }
 
@@ -301,8 +309,8 @@ export const FormComponent = (props: any) => {
             documentType: [false, false],
             eventCodeInput: "",
             patientId: "",
-            serviceEnd: [new Date(0), new Date(0)],
-            serviceStart: [new Date(0), new Date(0)],
+            serviceEnd: [null, null],
+            serviceStart: [null, null],
             uniqueId: ""
 
         }
@@ -315,7 +323,7 @@ export const FormComponent = (props: any) => {
                         validationSchema={FormSchema}
                         onSubmit={(values) => {
                             // same shape as initial values
-                            let parameters: iti18QueryParameter = makeSearchQueryObject(values)
+                            let parameters: iti18QueryParameter | null = makeSearchQueryObject(values)
                             let context: healthcareProfessionalContext = {
                                 actingUserId: '',
                                 responsibleUserId: '',
@@ -332,10 +340,10 @@ export const FormComponent = (props: any) => {
                             }
 
 
-
-                            postForm(request)
                             console.log(request)
 
+                           postForm(request)
+                            
 
                         }}
 
@@ -562,3 +570,38 @@ export const FormComponent = (props: any) => {
 
 
 export default FormComponent
+
+function handleTimes(object: Search) {
+
+
+
+    let nullFormat : string = "0000-00-00T00:00:00Z" 
+
+    let startFromDateDate, startToDateDate, endFromDateDate , endToDateDate 
+
+    if (object.serviceStart[0]!) {
+         startFromDateDate = formatDateTime(object.serviceStart[0]!)
+         console.log(startFromDateDate)
+
+    } else {
+         startFromDateDate = nullFormat
+    }
+
+    if (object.serviceStart[1]! ) {
+         startToDateDate = formatDateTime(object.serviceStart[1]!)
+    }else {
+         startToDateDate = nullFormat
+    }
+    if (object.serviceStart[2]!) {
+         endFromDateDate = formatDateTime(object.serviceStart[2]!)
+    }else {
+         endFromDateDate = nullFormat
+    }
+    if (object.serviceStart[3]!) {
+         endToDateDate = formatDateTime(object.serviceStart[3]!)
+    }else {
+         endToDateDate = nullFormat
+    }
+
+    return [startFromDateDate, startToDateDate, endFromDateDate , endToDateDate]
+}
