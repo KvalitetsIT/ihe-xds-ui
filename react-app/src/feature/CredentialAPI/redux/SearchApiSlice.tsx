@@ -12,15 +12,14 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
     {
         endpoints: builder => ({
            
-            postForm: builder.mutation({
-                query: (request: iti18Request) => ({
+            postForm: builder.mutation<{}, iti18Request>({
+                query: (request) => ({
                     // url : `${baseurl}` +  '/v1/credentialinfo',
                     url: `http://localhost:8080` + '/v1/iti18',
 
                     method: 'POST',
                     body: request,
                     responseHandler: (res) => {
-                        console.log(res)
                         return handleResponse({
 
                             response: res, toastWithResult: false, toastErrorText: "No ID card for search parameters"

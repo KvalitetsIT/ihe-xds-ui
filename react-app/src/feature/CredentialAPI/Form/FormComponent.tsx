@@ -19,7 +19,6 @@ import formatDateTime from '../../DateTimeFormatter';
 import { healthcareProfessionalContext, iti18QueryParameter, iti18Request } from '../../../models/Searches/Iti18Request';
 import { usePostFormMutation } from '../redux/SearchApiSlice';
 import DateTimePickComponent from '../DateTimePickComponent';
-import SearchResultTableComponent from './SearchResultTableComponent';
 
 
 
@@ -190,16 +189,12 @@ const GetDocumentTypes = (formikProps: any, fieldName: any) => {
 }
 
 
-
-
-
 export const FormComponent = (props: any) => {
     const { t } = useTranslation();
     const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
     const [postForm] = usePostFormMutation();
     const navigate = useNavigate()
 
-    const [searchResult, setSearchResult] = useState("")
 
 
 
@@ -228,14 +223,12 @@ export const FormComponent = (props: any) => {
         } else {
             documentTypes.push("STABLE")
             documentTypes.push("ON-DEMAND")
-
-
         }
         let [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate] = handleTimes(object)
 
-        
 
-       
+
+
 
 
 
@@ -273,7 +266,6 @@ export const FormComponent = (props: any) => {
         }
 
         return searchQuery
-        //return null
 
     }
 
@@ -284,7 +276,8 @@ export const FormComponent = (props: any) => {
     const FormSchema = Yup.object().shape({
         certificate: Yup.object().nullable()
             .required(t('Required')),
-        typeCode: Yup.object().nullable().required(t('Required'))
+        typeCode: Yup.object().nullable().required(t('Required')),
+        personNumber : Yup.string().required(t('Required'))
     });
 
     if (isLoading) {
@@ -311,7 +304,8 @@ export const FormComponent = (props: any) => {
             patientId: "",
             serviceEnd: [null, null],
             serviceStart: [null, null],
-            uniqueId: ""
+            uniqueId: "",
+            personNumber: ""
 
         }
 
@@ -321,11 +315,11 @@ export const FormComponent = (props: any) => {
                     <Formik
                         initialValues={searchObj}
                         validationSchema={FormSchema}
-                        onSubmit={(values) => {
+                        onSubmit={async (values) => {
                             // same shape as initial values
                             let parameters: iti18QueryParameter | null = makeSearchQueryObject(values)
                             let context: healthcareProfessionalContext = {
-                                actingUserId: '',
+                                actingUserId: values.personNumber!,
                                 responsibleUserId: '',
                                 authorizationCode: '',
                                 consentOverride: false,
@@ -342,8 +336,10 @@ export const FormComponent = (props: any) => {
 
                             console.log(request)
 
-                           postForm(request)
-                            
+                            console.log(await postForm(request))
+
+                            props.changeSearchResult("Test")
+
 
                         }}
 
@@ -355,7 +351,6 @@ export const FormComponent = (props: any) => {
                                     <Grid container direction={"row"} spacing={3} >
                                         <Grid item xs={8}>
                                             <Dropdown
-
                                                 displayLabel={'Certificate'}
                                                 getOptionsLabel={(option) => option?.id}
                                                 options={data}
@@ -366,6 +361,10 @@ export const FormComponent = (props: any) => {
                                         <Grid item>
                                             <Button onClick={() => navigate("/upload-certifacte")}>Upload your own certificate</Button>
                                         </Grid>
+                                        <Grid item xs={12}>
+                                        <TextField id="personNumber" name='personNumber' label="CPR" variant="outlined"
+                                                onChange={formikProps.handleChange}
+                                                value={getIn(formikProps.values, 'personNumber')} />                                        </Grid>
                                     </Grid>
                                 </div>
                                 <hr className='divider' />
@@ -534,8 +533,6 @@ export const FormComponent = (props: any) => {
 
                                                 >Reset</Button>
 
-                                                <button type="button" onClick={formikProps.handleReset}>reset form</button>
-
                                             </Stack>
                                         </Grid>
                                     </Grid>
@@ -552,11 +549,6 @@ export const FormComponent = (props: any) => {
                         )}
                     </Formik>
                 </div>
-                <>
-                    <SearchResultTableComponent
-                        data={searchResult}
-                    />
-                </>
             </>
         )
     }
@@ -575,32 +567,32 @@ function handleTimes(object: Search) {
 
 
 
-    
-    let startFromDateDate, startToDateDate, endFromDateDate , endToDateDate 
+
+    let startFromDateDate, startToDateDate, endFromDateDate, endToDateDate
 
     if (object.serviceStart[0]!) {
-         startFromDateDate = formatDateTime(object.serviceStart[0]!)
-         
+        startFromDateDate = formatDateTime(object.serviceStart[0]!)
+
 
     } else {
-         startFromDateDate = null
+        startFromDateDate = null
     }
 
-    if (object.serviceStart[1]! ) {
-         startToDateDate = formatDateTime(object.serviceStart[1]!)
-    }else {
-         startToDateDate = null
+    if (object.serviceStart[1]!) {
+        startToDateDate = formatDateTime(object.serviceStart[1]!)
+    } else {
+        startToDateDate = null
     }
     if (object.serviceStart[2]!) {
-         endFromDateDate = formatDateTime(object.serviceStart[2]!)
-    }else {
-         endFromDateDate = null
+        endFromDateDate = formatDateTime(object.serviceStart[2]!)
+    } else {
+        endFromDateDate = null
     }
     if (object.serviceStart[3]!) {
-         endToDateDate = formatDateTime(object.serviceStart[3]!)
-    }else {
-         endToDateDate = null
+        endToDateDate = formatDateTime(object.serviceStart[3]!)
+    } else {
+        endToDateDate = null
     }
 
-    return [startFromDateDate, startToDateDate, endFromDateDate , endToDateDate]
+    return [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate]
 }

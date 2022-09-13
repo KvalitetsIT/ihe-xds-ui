@@ -15,6 +15,7 @@ export interface Search {
     patientId? : string
     uniqueId? : string 
     eventCodeInput? : string
+    personNumber? : string
     
 
 }
