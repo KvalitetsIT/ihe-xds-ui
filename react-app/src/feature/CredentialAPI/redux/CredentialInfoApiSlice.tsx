@@ -2,7 +2,7 @@ import getEnvironment from "../../../env";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import handleResponse from "../../../redux/handleResponse";
 import fetchDefaultBaseQuery from "../../../redux/BaseQuerySettings";
-import { ID } from "../../../models/Searches/Search";
+import { CredentialInfoResponse } from "../../../models/Searches/Search";
 import { ApiSlice } from "./ApiSlice";
 
 const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
@@ -11,7 +11,7 @@ const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
 export const exendendApiSlice = ApiSlice.injectEndpoints(
     {
         endpoints: builder => ({
-            getIDsForOwner: builder.query<ID[], string>({
+            getIDsForOwner: builder.query<CredentialInfoResponse[], string>({
                 query: (owner) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,

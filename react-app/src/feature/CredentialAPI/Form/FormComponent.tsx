@@ -9,16 +9,17 @@ import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/system';
 import InfoIcon from '@mui/icons-material/Info';
 import Loading from '../../../components/loading';
-import DatePickComponent from '../DateTimePickComponent';
+import DatePickComponent from '../../../components/Generics/DateTimePickComponent';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
-import { Search, Codes, ID } from '../../../models/Searches/Search';
-import Dropdown from '../../../components/Generics/Dropdown copy';
+import { Search, Codes, } from '../../../models/Searches/Search';
+import Dropdown from '../../../components/Generics/Dropdown';
+import DropdownCredentialInfo from '../../../components/DropdownCredentialInfo';
 import { useGetFormatCodesQuery, useGetTypeCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetEventCodeQuery, useGetPractiseSettingCodeQuery, useGetAvailabilityStatusQuery, useGetObjectTypeQuery } from '../redux/CodesApSlicei';
 import { ChangeEventHandler, useState } from 'react';
-import formatDateTime from '../../DateTimeFormatter';
 import { healthcareProfessionalContext, iti18QueryParameter, iti18Request } from '../../../models/Searches/Iti18Request';
 import { usePostFormMutation } from '../redux/SearchApiSlice';
-import DateTimePickComponent from '../DateTimePickComponent';
+import formatDateTime from '../../../components/Generics/DateTimeFormatter';
+import DateTimePickComponent from '../../../components/Generics/DateTimePickComponent';
 
 
 
@@ -291,6 +292,7 @@ export const FormComponent = (props: any) => {
             scheme: ""
         }
 
+
         const searchObj: Search = {
             certificate: data[0],
             typeCode: codeTemplate,
@@ -350,9 +352,10 @@ export const FormComponent = (props: any) => {
                                 <div className='first-row'>
                                     <Grid container direction={"row"} spacing={3} >
                                         <Grid item xs={8}>
-                                            <Dropdown
+                                            <DropdownCredentialInfo
                                                 displayLabel={'Certificate'}
-                                                getOptionsLabel={(option) => option?.id}
+                                                getOptionsLabel={(option) => option.displayName 
+                                                }
                                                 options={data}
                                                 fieldName={'certificate'}
                                                 helperText={helperText}

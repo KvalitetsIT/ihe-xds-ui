@@ -1,4 +1,4 @@
-import { CodeQuery, ID } from "./Search"
+import { CodeQuery } from "./Search"
 
 
 export interface healthcareProfessionalContext {

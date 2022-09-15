@@ -3,7 +3,7 @@ import Form from "../../feature/CredentialAPI/Form/FormComponent"
 import SearchResultTableComponent from "../../feature/CredentialAPI/Form/SearchResultTableComponent"
 
 
-// Sesssion Id in the future
+// Sesssion Id in the future - fix this in UploadCertificateForm.tsx too
 const sessionID: String = "4afe2336-44c4-4509-8f85-f43f1a9d3b17"
 
 export const HomePage = () => {

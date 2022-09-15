@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { Moment } from "moment";
-import { CustomFormikProps } from "../../components/Generics/CustomFormProps";
+import { CustomFormikProps } from "./CustomFormProps";
 import { getIn } from "formik";
 
 

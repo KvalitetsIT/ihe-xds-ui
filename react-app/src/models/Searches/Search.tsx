@@ -2,7 +2,7 @@ import { Moment } from "moment"
 
 // Start object,
 export interface Search {
-    certificate? : ID
+    certificate? : CredentialInfoResponse
     typeCode? : Codes 
     formatCode? : Codes 
     healthcareFacilityTypeCode? : Codes 
@@ -21,8 +21,9 @@ export interface Search {
 }
 
 
-export interface ID {
+export interface CredentialInfoResponse {
     id : string
+    displayName : string
 }
 
 export interface Codes {

@@ -1,9 +1,7 @@
-export default class CredentialInfo {
-owner : string | null | undefined
-id! : string
-cvr! : string
-organisation! : string
-publicCertStr! : string
-privateKeyStr! : string
+export  interface CredentialInfo {
+owner : string | null
+displayName : string 
+publicCertStr : string
+privateKeyStr : string
 
 }
