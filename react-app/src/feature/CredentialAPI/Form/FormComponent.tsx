@@ -20,6 +20,7 @@ import { healthcareProfessionalContext, iti18QueryParameter, iti18Request } from
 import { usePostFormMutation } from '../redux/SearchApiSlice';
 import formatDateTime from '../../../components/Generics/DateTimeFormatter';
 import DateTimePickComponent from '../../../components/Generics/DateTimePickComponent';
+import { Iti18Response } from '../../../models/Searches/Iti18Response';
 
 
 
@@ -193,7 +194,7 @@ const GetDocumentTypes = (formikProps: any, fieldName: any) => {
 export const FormComponent = (props: any) => {
     const { t } = useTranslation();
     const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
-    const [postForm] = usePostFormMutation();
+    const [postForm, formResult] = usePostFormMutation();
     const navigate = useNavigate()
 
 
@@ -336,11 +337,15 @@ export const FormComponent = (props: any) => {
                             }
 
 
-                            console.log(request)
 
-                            console.log(await postForm(request))
+                            
 
-                            props.changeSearchResult("Test")
+                            let temp : any = await postForm(request)
+                            let result : Iti18Response[] = temp.data
+
+            
+
+                           props.changeSearchResult(result)
 
 
                         }}
