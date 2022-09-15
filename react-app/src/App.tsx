@@ -8,9 +8,8 @@ import Layout from './components/Layout/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import { StrictMode, useMemo, useState } from 'react';
-import { AbilityContext } from './feature/User/logic/Can';
 import Loading from './components/loading';
-import CertificateForm from './feature/CredentialAPI/CerificateForm';
+import UploadCertificateForm from './feature/CredentialAPI/UploadForm/UploadCertificateForm';
 
 function App() {
 
@@ -21,7 +20,7 @@ function App() {
                             <Routes>
                                 <Route path="/" element={<HomePage />} />
                                 <Route path="*" element={<HomePage />} />
-                                <Route path="/upload-certifacte" element={<CertificateForm />} />
+                                <Route path="/upload-certifacte" element={<UploadCertificateForm />} />
                             </Routes>
 
                             <ToastContainer closeButton={true} position="bottom-right" />

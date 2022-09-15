@@ -2,19 +2,16 @@ import getEnvironment from "../../../env";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import handleResponse from "../../../redux/handleResponse";
 import fetchDefaultBaseQuery from "../../../redux/BaseQuerySettings";
-import CredentialInfo from "../../../models/CredentialInfo";
-import { ID } from "../../../models/Searches/Search";
+import { CredentialInfoResponse } from "../../../models/Searches/Search";
+import { ApiSlice } from "./ApiSlice";
 
 const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
 
-// Might split up later
-export const CredentialInfoAPI = createApi(
+
+export const exendendApiSlice = ApiSlice.injectEndpoints(
     {
-        reducerPath: 'CredentialInfo',
-        tagTypes: ['CredentialInfo'],
-        baseQuery: fetchDefaultBaseQuery(),
-        endpoints: (builder) => ({
-            getIDsforOwner: builder.query<ID[], string>({
+        endpoints: builder => ({
+            getIDsForOwner: builder.query<CredentialInfoResponse[], string>({
                 query: (owner) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
@@ -43,9 +40,8 @@ export const CredentialInfoAPI = createApi(
 
 
             })
-
-
         })
-    })
+    }
+)
 
-export const { useGetIDsforOwnerQuery, useAddCredentielInfoMutation } = CredentialInfoAPI
+export const {useGetIDsForOwnerQuery, useAddCredentielInfoMutation} = exendendApiSlice
