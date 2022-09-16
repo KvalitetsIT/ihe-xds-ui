@@ -4,6 +4,7 @@ import handleResponse from "../../../redux/handleResponse";
 import fetchDefaultBaseQuery from "../../../redux/BaseQuerySettings";
 import { ApiSlice } from "./ApiSlice";
 import { iti18Request } from "../../../models/Searches/Iti18Request";
+import { Iti18Response } from "../../../models/Searches/Iti18Response";
 
 const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
 
@@ -12,7 +13,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
     {
         endpoints: builder => ({
            
-            postForm: builder.mutation<{}, iti18Request>({
+            postForm: builder.mutation<Iti18Response[], iti18Request>({
                 query: (request) => ({
                     // url : `${baseurl}` +  '/v1/credentialinfo',
                     url: `http://localhost:8080` + '/v1/iti18',

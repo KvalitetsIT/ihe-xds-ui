@@ -7,9 +7,9 @@ import SearchResultTableComponent from "../../feature/CredentialAPI/Form/SearchR
 const sessionID: String = "4afe2336-44c4-4509-8f85-f43f1a9d3b17"
 
 export const HomePage = () => {
-    const [searchResult, setSearchResult] = useState("")
+    const [searchResult, setSearchResult] = useState([""])
 
-    const changeSearchResult = (value: string) => {
+    const changeSearchResult = (value : any) => {
         setSearchResult(value)
     }
 
