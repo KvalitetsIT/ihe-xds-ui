@@ -7,12 +7,26 @@ import { HomePage } from './pages/Home/Home';
 import Layout from './components/Layout/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-import { StrictMode, useMemo, useState } from 'react';
+import { StrictMode, useEffect, useMemo, useState } from 'react';
 import Loading from './components/loading';
 import UploadCertificateForm from './feature/CredentialAPI/UploadForm/UploadCertificateForm';
 import About from './pages/Home/About';
+import { isDayLater, setSession } from './components/Utility/sessionHandling';
 
 function App() {
+    useEffect( () => {
+        if (window.localStorage.getItem("session") == null){
+            setSession()
+        } 
+        else {
+            if (isDayLater() ) {
+                setSession()
+            }
+        }
+        
+        
+    }, [])
+
 
     return (
         <Router>

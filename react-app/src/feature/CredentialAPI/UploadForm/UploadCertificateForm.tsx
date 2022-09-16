@@ -11,6 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import readFileAsync from "./handleFileUpload";
 import { CredentialInfo } from "../../../models/CredentialInfo";
 import { toast } from "react-toastify";
+import { getSession } from "../../../components/Utility/sessionHandling";
 
 
 
@@ -33,7 +34,7 @@ function UploadCertificateForm(props: any) {
 
     const uploadCertificate = (values : Fields) => {
         const obj: CredentialInfo = {
-            owner: "4afe2336-44c4-4509-8f85-f43f1a9d3b17",
+            owner: getSession(),
             displayName: values.name,
             publicCertStr: values.publicCert,
             privateKeyStr: values.privateKey
