@@ -5,6 +5,6 @@ export const ApiSlice = createApi(
     {
         reducerPath: 'api',
         baseQuery: fetchDefaultBaseQuery(),
-        tagTypes: ['Codes', 'CredentialInfo', 'SearchQuries'],
+        tagTypes: ['Codes', 'CredentialInfo', 'SearchQuries', 'Configs'],
         endpoints: builder =>  ({})
     })

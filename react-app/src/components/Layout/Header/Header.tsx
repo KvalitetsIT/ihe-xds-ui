@@ -1,6 +1,9 @@
+import { Button } from '@mui/material';
 import { t } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+    const navigate = useNavigate()
 return (
     <div>
         <div className="navbar-header">
@@ -8,9 +11,9 @@ return (
         </div>
         <div className="nav nav-bar">
             <ul>
-                <li>{t("Search") + ""}</li>
+                <li><Button onClick={() => navigate("/")}>{t("Search") + ""}</Button></li>
                 <li>{t("Upload") + ""}</li>
-                <li>{t("About") + ""}</li>
+                <li><Button onClick={() => navigate("/about")}>{t("About") + ""}</Button></li>
             </ul>
         </div>
 
