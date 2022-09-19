@@ -1,3 +1,4 @@
+import './HeaderStyles.css';
 import { Button } from '@mui/material';
 import { t } from 'i18next';
 import { useNavigate } from 'react-router-dom';
@@ -5,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 function Header() {
     const navigate = useNavigate()
 return (
-    <div>
+    <div className='navbar'>
         <div className="navbar-header">
             <div>CDA Document Viewer</div>
         </div>
-        <div className="nav nav-bar">
+        <div className="nav-bar">
             <ul>
                 <li><Button onClick={() => navigate("/")}>{t("Search") + ""}</Button></li>
                 <li>{t("Upload") + ""}</li>
