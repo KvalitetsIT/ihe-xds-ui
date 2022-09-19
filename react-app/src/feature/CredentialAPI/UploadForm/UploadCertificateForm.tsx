@@ -167,24 +167,6 @@ function UploadCertificateForm(props: any) {
 
 
 
-
-
-
-
-
-/*
-return (
-    <>
-        <h1>HI</h1>
-        <button onClick={uploadCertificate}></button>
-        <a onClick={() => navigate(-1)}>BACK</a>
-    </>
-)
-    */
-
-
-
-
 export default UploadCertificateForm
 
 
