@@ -2,11 +2,9 @@ import { CodeQuery } from "./Search"
 
 
 export interface healthcareProfessionalContext {
-    actingUserId : string
-    responsibleUserId : string 
-    authorizationCode : string
+    authorizationCode : string | null
     consentOverride : boolean
-    organisationCode : string
+    role : string
 
 }
 

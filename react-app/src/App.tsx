@@ -10,20 +10,18 @@ import { ToastContainer } from "react-toastify";
 import { StrictMode, useEffect, useMemo, useState } from 'react';
 import Loading from './components/loading';
 import UploadCertificateForm from './feature/CredentialAPI/UploadForm/UploadCertificateForm';
-import About from './pages/Home/About';
-import { isDayLater, setSession } from './components/Utility/sessionHandling';
+import {  handleSession, getSession } from './components/Utility/sessionHandling';
+import About from './pages/About/About';
 
 function App() {
+    const [session, setSession] = useState("");
     useEffect( () => {
-        if (window.localStorage.getItem("session") == null){
-            setSession()
+
+        if (window.sessionStorage.getItem("session") == null){
+            handleSession()
+            setSession(getSession())
         } 
-        else {
-            if (isDayLater() ) {
-                setSession()
-            }
-        }
-        
+       
         
     }, [])
 
@@ -33,8 +31,8 @@ function App() {
                     <Layout>
                         <>
                             <Routes>
-                                <Route path="/" element={<HomePage />} />
-                                <Route path="*" element={<HomePage />} />
+                                <Route path="/" element={<HomePage session={session}/>} />
+                                <Route path="*" element={<HomePage session={session}/>} />
                                 <Route path="/upload-certifacte" element={<UploadCertificateForm />} />
                                 <Route path="/about" element={<About />} />
 

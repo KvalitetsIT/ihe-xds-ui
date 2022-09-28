@@ -1,4 +1,4 @@
-import { Grid, Button, TextField } from "@mui/material";
+import { Grid, Button, TextField, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { FormikProps, getIn } from "formik";
 import { useNavigate } from "react-router-dom";
 
@@ -46,10 +46,23 @@ export function HeaderRows(props: CustomFormikProps & HeaderRowsProps) {
                 <Grid item>
                     <Button onClick={() => navigate("/upload-certifacte")}>Upload your own certificate</Button>
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField id="personNumber" name='personNumber' label="CPR" variant="outlined"
+                <Grid item xs={4}>
+                    <TextField id="authorizationCode" name='authorizationCode' label="Authorization Code" variant="outlined"
                         onChange={props.handleChange}
-                        value={getIn(props.values, 'personNumber')} />                                        </Grid>
+                        value={getIn(props.values, 'authorizationCode')} />
+                </Grid>
+                <Grid item xs={4}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox name="breakTheGlass" onChange={props.handleChange
+                        }
+                            checked={props.values.breakTheGlass} />} label="Break The Glass" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField id="role" name='role' label="Role" variant="outlined"
+                        onChange={props.handleChange}
+                        value={getIn(props.values, 'role')} />
+                </Grid>
             </Grid>
         </div>
     )
