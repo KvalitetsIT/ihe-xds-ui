@@ -25,12 +25,12 @@ function SearchResultTableComponent(props: SearchResultTableProps) {
             for (let i = 0; i < data.length; i++) {
 
                 let resp = {
-                    uniqueID: (data[i] as Iti18Response).documentId,
-                    documentType: (data[i] as Iti18Response).documentType,
-                    patientId: (data[i] as Iti18Response).patientId,
-                    repositoryID: (data[i] as Iti18Response).repositoryID,
-                    serviceStop: formatTimeFromIti18Response((data[i] as Iti18Response).serviceEnd),
-                    serviceStart: formatTimeFromIti18Response((data[i] as Iti18Response).serviceStart)
+                    uniqueID: (data[i] as Iti18Response).queryResponse.documentId,
+                    documentType: (data[i] as Iti18Response).queryResponse.documentType,
+                    patientId: (data[i] as Iti18Response).queryResponse.patientId,
+                    repositoryID: (data[i] as Iti18Response).queryResponse.repositoryID,
+                    serviceStop: formatTimeFromIti18Response((data[i] as Iti18Response).queryResponse.serviceEnd),
+                    serviceStart: formatTimeFromIti18Response((data[i] as Iti18Response).queryResponse.serviceStart)
                 }
                 rows.push(resp)
 

@@ -31,22 +31,22 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 invalidatesTags: ['SearchQuries']
 
             }),
-            getPrevRequest: builder.query<Logs, void>({
-                query: () => ({
+            getPrevRequest: builder.query<Logs, string>({
+                query: (path) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/prevRequest',
+                    url: `http://localhost:8080` + '/v1/request/' + `${path}`,
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Could not get request" }),
                 }),
                 providesTags: ['PreviousRequest']
             }),
 
-            getPrevResponse: builder.query<Logs, void>({
-                query: () => ({
+            getPrevResponse: builder.query<Logs, string>({
+                query: (path) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/prevResponse',
+                    url: `http://localhost:8080` + '/v1/response/'+ `${path}`,
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Could not get response" }),
                 }),

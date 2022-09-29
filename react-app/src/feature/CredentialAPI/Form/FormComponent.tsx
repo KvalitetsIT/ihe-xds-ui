@@ -16,11 +16,15 @@ import { RowFour } from './Components/RowFour';
 import { RowFive } from './Components/RowFive';
 import { RowSix } from './Components/RowSix';
 import { Iti18Response } from '../../../models/Searches/Iti18Response';
+import { useState } from 'react';
 
 export const FormComponent = (props: any) => {
     const { t } = useTranslation();
     const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
     const [postForm, formResult] = usePostFormMutation();
+    const [responseID, setResponseID] = useState("-1")
+    const [requestID, setRequestID] = useState("-1")
+
 
     const helperText: string = getIn(props.touched, props.fieldName) && getIn(props.errors, props.fieldName)
 
@@ -134,9 +138,9 @@ export const FormComponent = (props: any) => {
                                 role = "User"
                             }
 
-                            let authCode : string = values.authorizationCode!
+                            let authCode : string | null = values.authorizationCode!
                             if (authCode.trim().length === 0) {
-                                authCode = "null"
+                                authCode = null
                             }
 
                             let context: healthcareProfessionalContext = {
@@ -153,8 +157,9 @@ export const FormComponent = (props: any) => {
 
                         console.log(request)
                            let temp: any = await postForm(request)
-                            let result: Iti18Response[] = temp.data
-                            console.log(result)
+                            let result: Iti18Response = temp.data
+                            setRequestID(result.requestId)
+                            setResponseID(result.responseId)
                            // props.changeSearchResult(result)
                         }}
 
@@ -189,8 +194,8 @@ export const FormComponent = (props: any) => {
                                     {...formikProps}
                                     helperText={helperText} />
                                 <RowSix
-                                    {...formikProps}
-                                    helperText={helperText} />
+                                requestID={requestID} responseID={responseID} {...formikProps}
+                                helperText={helperText} />
                             </Form>
                         )}
                     </Formik>
@@ -210,7 +215,8 @@ function handleTimes(object: Search) {
     let startFromDateDate, startToDateDate, endFromDateDate, endToDateDate
 
     if (object.serviceStart[0]!) {
-        startFromDateDate = formatDateTime(object.serviceStart[0]!)
+        startFromDateDate = Date.parse(formatDateTime(object.serviceStart[0]!))
+
 
 
     } else {
@@ -218,17 +224,17 @@ function handleTimes(object: Search) {
     }
 
     if (object.serviceStart[1]!) {
-        startToDateDate = formatDateTime(object.serviceStart[1]!)
+        startToDateDate = Date.parse(formatDateTime(object.serviceStart[1]!))
     } else {
         startToDateDate = null
     }
     if (object.serviceStart[2]!) {
-        endFromDateDate = formatDateTime(object.serviceStart[2]!)
+        endFromDateDate = Date.parse(formatDateTime(object.serviceStart[2]!))
     } else {
         endFromDateDate = null
     }
     if (object.serviceStart[3]!) {
-        endToDateDate = formatDateTime(object.serviceStart[3]!)
+        endToDateDate = Date.parse(formatDateTime(object.serviceStart[3]!))
     } else {
         endToDateDate = null
     }

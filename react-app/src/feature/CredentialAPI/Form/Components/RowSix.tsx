@@ -4,7 +4,7 @@ import { useGetAvailabilityStatusQuery } from "../../redux/CodesApSlicei";
 import { useLazyGetPrevResponseQuery, useLazyGetPrevRequestQuery } from "../../redux/SearchApiSlice";
 import Dropdown from "../../../../components/Generics/Dropdown";
 import { Codes } from "../../../../models/Searches/Search";
-import { writextFile } from "../../../../components/Utility/textHandling";
+import { writeTextFile } from "../../../../components/Utility/textHandling";
 
 
 /*
@@ -13,6 +13,8 @@ Component consists of Patient ID, Unique ID and Type code
 
 interface RowSix {
     helperText: string
+    requestID: string
+    responseID: string
 
 }
 
@@ -51,15 +53,15 @@ export function RowSix(props: CustomFormikProps & RowSix) {
                 alignItems="center">
                 <Stack direction={"row"} spacing={2} >
                     <Button onClick={async () => {
-                        let data = (await getPrevRequest()).data
+                        let data = (await getPrevRequest(props.requestID)).data
                         if (data !== undefined) {
-                            writextFile(data.payload!, "request")
+                            writeTextFile(data.payload!, "request", props.requestID)
                         }
                     }}>Download latest request (Search)</Button>
                     <Button onClick={async () => {
-                        let data = (await getPrevResponse()).data
+                        let data = (await getPrevResponse(props.responseID)).data
                         if (data !== undefined) {
-                            writextFile(data.payload!, "response")
+                            writeTextFile(data.payload!, "response", props.requestID)
                         }
                     }}>Download latest response (Search)</Button>
                 </Stack>

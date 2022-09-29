@@ -19,10 +19,10 @@ export interface iti18QueryParameter {
     eventCode? : CodeQuery
     practiceSettingCode? : CodeQuery
     documentType? : string[]
-    startFromDate : string | null
-    startToDate : string | null
-    endFromDate : string | null
-    endToDate : string | null
+    startFromDate : number | null
+    startToDate : number | null
+    endFromDate : number | null
+    endToDate : number | null
     availabilityStatus? : string
 
 } 
