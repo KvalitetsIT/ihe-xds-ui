@@ -1,3 +1,4 @@
+import './UploadFormStyle.css';
 import Loading from "../../../components/loading"
 import { useState } from "react";
 import { useNavigate, } from "react-router-dom";
@@ -32,7 +33,7 @@ function UploadCertificateForm(props: any) {
 
     const [addCredentielInfo] = useAddCredentielInfoMutation()
 
-    const uploadCertificate = (values : Fields) => {
+    const uploadCertificate = (values: Fields) => {
         const obj: CredentialInfo = {
             owner: getSession(),
             displayName: values.name,
@@ -46,11 +47,11 @@ function UploadCertificateForm(props: any) {
 
     const FormSchema = Yup.object().shape({
         name: Yup.string()
-        .required(t('Required')),
+            .required(t('Required')),
         privateKey: Yup.string()
-        .required(t('Required')),
+            .required(t('Required')),
         publicCert: Yup.string()
-        .required(t('Required'))
+            .required(t('Required'))
 
     });
 
@@ -63,11 +64,11 @@ function UploadCertificateForm(props: any) {
 
     return (
         <>
-            <div className='form-panel-body'>
+            <div className='form-container form-defualt form-panel-body'>
                 <Formik
                     initialValues={fields}
                     validationSchema={FormSchema}
-                    onSubmit={(value : Fields) => {
+                    onSubmit={(value: Fields) => {
                         uploadCertificate(value)
                     }}
 
@@ -80,29 +81,27 @@ function UploadCertificateForm(props: any) {
                         // action endpoint or redux post request .... 
                         <Form action='' method='POST'>
                             <Grid container spacing={3} >
-                                <Grid item xs={12}>
+                                <Grid item xs={4}>
                                     <TextField id="name" name='name' label="Display Name" variant="outlined" onChange={formikProps.handleChange} value={getIn(formikProps.values, 'name')} />
                                 </Grid>
-                            </Grid>
-
-                            < Grid  >
-                                <Grid item xs={12}>
+                                <Grid item xs={4}>
                                     <Stack direction="row">
 
-                                        <  TextareaAutosize
+                                        <  TextareaAutosize 
                                             id="publicCert" name='publicCert'
-                                            maxRows={4}
+                                            maxRows={3}
                                             placeholder="Cetificate"
                                             defaultValue={getIn(formikProps.values, 'publicCert')}
-                                            onChange={ (event) => {
+                                            onChange={(event) => {
 
-                                        const string = event.target.value
+                                                const string = event.target.value
 
-                                        formikProps.setFieldValue("publicCert", string)
+                                                formikProps.setFieldValue("publicCert", string)
 
                                             }
                                             }
-                                            style={{ width: 200 }}
+                                            style={{ width: 235, height: 56,
+                                            resize : "none"  }}
                                         />
 
 
@@ -114,24 +113,20 @@ function UploadCertificateForm(props: any) {
                                         </Tooltip>
                                     </Stack>
                                 </Grid>
-                            </Grid>
-                            < Grid container spacing={3} >
-                                <Grid item xs={6}>
+                                <Grid item xs={4}>
                                     <Stack direction="row">
-                                    <  TextareaAutosize
+                                        <  TextareaAutosize
                                             id="privateKey" name='privateKey'
-                                            maxRows={4}
+                                            maxRows={3}
                                             placeholder="Private key"
                                             defaultValue={getIn(formikProps.values, 'privateKey')}
-                                            onChange={ (event) => {
-
-                                        const string = event.target.value
-
-                                        formikProps.setFieldValue("privateKey", string)
-
+                                            onChange={(event) => {
+                                                const string = event.target.value
+                                                formikProps.setFieldValue("privateKey", string)
                                             }
                                             }
-                                            style={{ width: 200 }}
+                                            style={{ width: 235, height: 56,
+                                                resize : "none" }}
                                         />
                                         <Tooltip title="Her skal private nøglen indsættes">
                                             <IconButton>
@@ -141,15 +136,14 @@ function UploadCertificateForm(props: any) {
                                     </Stack>
 
                                 </Grid>
-                                
                             </Grid>
-                            <Grid item xs={12} >
-                                            <Stack direction={"row"} justifyContent={"center"}  >
-                                            <Button type={'submit'}>Search</Button>
 
-                                            </Stack>
-                                        </Grid>
-                           
+                            <Grid item xs={12} >
+                                <Stack direction={"row"} justifyContent={"center"}  >
+                                    <Button type={'submit'} style={{marginTop : 15}}>Upload</Button>
+
+                                </Stack>
+                            </Grid>
                         </Form>
                     )}
                 </Formik>

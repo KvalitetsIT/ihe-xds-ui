@@ -21,7 +21,7 @@ export function RowFour(props: CustomFormikProps & RowFour) {
     return (
         <div className='row' >
             <Grid container direction={"row"} justifyContent="center"
-                alignItems="center" style={{ marginLeft: -144 }}>
+                alignItems="center" style={{ marginLeft: -135 }}>
                 <Grid item xs={6}>
                     <Stack direction="row" spacing={1.5}>
                         {GetPracticeSettingCode(props.helperText, props)}

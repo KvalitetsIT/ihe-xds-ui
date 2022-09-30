@@ -15,7 +15,9 @@ export interface Search {
     patientId? : string
     uniqueId? : string 
     eventCodeInput? : string
-    personNumber? : string
+    authorizationCode? : string
+    breakTheGlass : boolean
+    role : string
     
 
 }
@@ -27,8 +29,8 @@ export interface CredentialInfoResponse {
 }
 
 export interface Codes {
-    code : string
     name : string
+    code : string
     scheme : string
 }
 

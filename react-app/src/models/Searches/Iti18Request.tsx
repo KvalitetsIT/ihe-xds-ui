@@ -2,11 +2,9 @@ import { CodeQuery } from "./Search"
 
 
 export interface healthcareProfessionalContext {
-    actingUserId : string
-    responsibleUserId : string 
-    authorizationCode : string
+    authorizationCode : string | null
     consentOverride : boolean
-    organisationCode : string
+    role : string
 
 }
 
@@ -21,10 +19,10 @@ export interface iti18QueryParameter {
     eventCode? : CodeQuery
     practiceSettingCode? : CodeQuery
     documentType? : string[]
-    startFromDate : string | null
-    startToDate : string | null
-    endFromDate : string | null
-    endToDate : string | null
+    startFromDate : number | null
+    startToDate : number | null
+    endFromDate : number | null
+    endToDate : number | null
     availabilityStatus? : string
 
 } 

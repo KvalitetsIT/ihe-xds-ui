@@ -27,7 +27,10 @@ export default async function handleResponse(
             status: pack.response.status,
             path: pack.response.url,
             error: json
-        }
+        
+    }
+
+    
 
     const shouldShowToast = pack.toastWithResult ?? true
 
@@ -39,6 +42,7 @@ export default async function handleResponse(
     if (!isSuccess) {
         toast.error(<ToastError toastErrorText={pack.toastErrorText} error={error} />)
     }
+
 
     return json;
 }

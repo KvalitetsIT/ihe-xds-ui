@@ -2,7 +2,8 @@ import { FormControl, FormHelperText, Typography, Autocomplete, TextField, Box }
 import { getIn } from "formik";
 import { CustomFormikProps } from "./Generics/CustomFormProps";
 import { CredentialInfoResponse } from "../models/Searches/Search";
-import instanceOfCredentialInfoResponse from "./Utility/instanceOfObject";
+import { instanceOfCredentialInfoResponse } from "./Utility/instanceOfObject";
+
 
 
 

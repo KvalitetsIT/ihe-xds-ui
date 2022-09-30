@@ -1,8 +1,10 @@
 import { Grid, Stack, Button } from "@mui/material";
 import { CustomFormikProps } from "../../../../components/Generics/CustomFormProps";
-import { useGetAvailabilityStatusQuery, useGetTypeCodesQuery } from "../../redux/CodesApSlicei";
+import { useGetAvailabilityStatusQuery } from "../../redux/CodesApSlicei";
+import { useLazyGetPrevResponseQuery, useLazyGetPrevRequestQuery } from "../../redux/SearchApiSlice";
 import Dropdown from "../../../../components/Generics/Dropdown";
 import { Codes } from "../../../../models/Searches/Search";
+import { writeTextFile } from "../../../../components/Utility/textHandling";
 
 
 /*
@@ -11,10 +13,15 @@ Component consists of Patient ID, Unique ID and Type code
 
 interface RowSix {
     helperText: string
+    requestID: string
+    responseID: string
 
 }
 
 export function RowSix(props: CustomFormikProps & RowSix) {
+    const [getPrevRequest] = useLazyGetPrevRequestQuery()
+    const [getPrevResponse] = useLazyGetPrevResponseQuery()
+
 
     return (
         <>
@@ -45,8 +52,18 @@ export function RowSix(props: CustomFormikProps & RowSix) {
             <Grid container direction={"row"} justifyContent="center"
                 alignItems="center">
                 <Stack direction={"row"} spacing={2} >
-                    <Button>Download latest request (Search)</Button>
-                    <Button>Download latest response (Search)</Button>
+                    <Button onClick={async () => {
+                        let data = (await getPrevRequest(props.requestID)).data
+                        if (data !== undefined) {
+                            writeTextFile(data.payload!, "request", props.requestID)
+                        }
+                    }}>Download latest request (Search)</Button>
+                    <Button onClick={async () => {
+                        let data = (await getPrevResponse(props.responseID)).data
+                        if (data !== undefined) {
+                            writeTextFile(data.payload!, "response", props.requestID)
+                        }
+                    }}>Download latest response (Search)</Button>
                 </Stack>
             </Grid >
         </>
@@ -54,26 +71,7 @@ export function RowSix(props: CustomFormikProps & RowSix) {
 }
 
 
-const GetTypeCodes = (helperText: string, formikProps: any) => {
-    const { data, isSuccess } = useGetTypeCodesQuery()
 
-
-    if (isSuccess) {
-        return (
-            <Dropdown
-                initValue={undefined}
-                displayLabel={'Type Code'}
-                getOptionsLabel={(option: Codes) => option?.name}
-                options={data}
-                fieldName={'typeCode'}
-                helperText={helperText}
-                {...formikProps} />
-        )
-    }
-    else {
-        return null
-    }
-}
 
 const GetAvailabilityStatus = (helperText: string, formikProps: any) => {
     const { data, isSuccess } = useGetAvailabilityStatusQuery()
