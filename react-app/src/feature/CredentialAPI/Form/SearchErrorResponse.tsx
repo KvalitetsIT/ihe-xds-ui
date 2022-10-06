@@ -12,26 +12,32 @@ interface SearchErrorResponses {
 }
 
 function SearchErrorResponses(props: SearchErrorResponses) {
-    let errorList: registryError[] = findRelevantErrors(props.data)
+    let [errorList, warningList]  = findRelevantErrors(props.data)
     return (
+        <>
         <Stack sx={{ width: '100%' }} spacing={2}>
             {successInfo(props.amountOfResponses)}
-            {errorInfo(errorList)}
+            {getErrorsBox(errorList)}
+            {getWarningsBox(warningList)}
         </Stack>
+        </>
     )
 
 
 }
 
 function findRelevantErrors(data: registryError[]) {
-    let temp = []
-
-    for (const errorObj of data) {
-        if (errorObj.severity.includes("ERROR")) {
-            temp.push(errorObj)
-        }
-    }
-    return temp
+    let error = []
+    let warnings= []
+    
+        for (const errorObj of data) {
+            if (errorObj.severity.toString().includes("ERROR")) {
+                error.push(errorObj)
+            } else {
+                warnings.push(errorObj)
+            }
+        } 
+    return [error, warnings]
 
 }
 
@@ -48,28 +54,40 @@ function successInfo(numberOfResp: number) {
     }
 }
 
-function errorInfo(errors: registryError[]) {
-    if (errors.length > 0) {
-        console.log(errors)
-        return (
-            <Alert severity="warning" icon={false}>
-                <AlertTitle>WARNING</AlertTitle>
 
+
+export default SearchErrorResponses;
+
+
+function getWarningsBox(list : registryError[]) {
+    return (
+        <Alert severity="warning">
                 {
-                    errors.map((error: registryError, index: number) => {
+                    list.map((error: registryError, index: number) => {
                         return (
                             <div key={index}>
-                                {error.severity.split(",")[1].trim() + " " + error.errorCode.split(",")[0].trim() + ":" + " " + error.codeContext}
+                                {error.errorCode.split(",")[0].trim() + ":" + " " + error.codeContext}
                             </div>
                         )
                     })
                 }
             </Alert>
-        )
-    }
-    else {
-        return null
-    }
+    )
+
 }
 
-export default SearchErrorResponses;
+function getErrorsBox(list : registryError[]) {
+    return (
+        <Alert severity={"error"}>
+                {
+                    list.map((error: registryError, index: number) => {
+                        return (
+                            <div key={index}>
+                                {error.errorCode.split(",")[0].trim() + ":" + " " + error.codeContext}
+                            </div>
+                        )
+                    })
+                }
+            </Alert>
+    )
+}

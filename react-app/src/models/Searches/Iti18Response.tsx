@@ -19,6 +19,11 @@ export interface Iti18Response {
 export interface registryError {
     codeContext : string 
     errorCode : string
-    severity : string
+    severity : Serverity
 
 }
+
+enum Serverity {
+    ERROR,
+    WARNING
+  }

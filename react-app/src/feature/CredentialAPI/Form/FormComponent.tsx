@@ -144,6 +144,8 @@ export const FormComponent = (props: any) => {
                                 context: context
                             }
 
+                            props.changeSearchRequest(request)
+
                             console.log(request)
                             let temp: any = await postForm(request)
                             let result: Iti18Response = temp.data
