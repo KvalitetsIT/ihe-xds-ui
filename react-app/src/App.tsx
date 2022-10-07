@@ -12,6 +12,7 @@ import Loading from './components/loading';
 import UploadCertificateForm from './feature/CredentialAPI/UploadForm/UploadCertificateForm';
 import {  handleSession, getSession } from './components/Utility/sessionHandling';
 import About from './pages/About/About';
+import Document from './pages/Document/Document';
 
 function App() {
     const [session, setSession] = useState("");
@@ -35,6 +36,7 @@ function App() {
                                 <Route path="*" element={<HomePage session={session}/>} />
                                 <Route path="/upload-certifacte" element={<UploadCertificateForm />} />
                                 <Route path="/about" element={<About />} />
+                                <Route path='/document/:id' element={<Document />} /> 
 
                             </Routes>
 

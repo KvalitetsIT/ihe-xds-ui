@@ -21,7 +21,7 @@ function SearchResultTableComponent(props: SearchResultTableProps) {
     const renderDocument = (data : any) => {
     
         return (
-            <DocumentLinkComponent owner={"" + props.sessionID} documentId={data.row.uniqueID} repository={data.row.repositoryID} searchRequest={props.searchRequest}/>
+            <DocumentLinkComponent  documentId={data.row.uniqueID} repository={data.row.repositoryID} searchRequest={props.searchRequest}/>
         )
     }
     

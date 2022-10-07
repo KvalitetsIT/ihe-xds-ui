@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { getSession } from "../../components/Utility/sessionHandling"
 import Form from "../../feature/CredentialAPI/Form/FormComponent"
 import SearchResultTableComponent from "../../feature/CredentialAPI/Form/SearchResultTableComponent"
 import { iti18Request } from "../../models/Searches/Iti18Request"
