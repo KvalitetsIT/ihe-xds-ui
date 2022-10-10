@@ -1,36 +1,67 @@
-import * as React from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Iti18Response } from '../../../models/Searches/Iti18Response';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {  Iti18Response } from '../../../models/Searches/Iti18Response';
 import { formatTimeFromIti18Response } from '../../../components/Utility/formatTime';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton } from '@mui/material';
+import { IconButton} from '@mui/material';
+import { instanceOfIti18Response } from '../../../components/Utility/instanceOfObject';
+import SearchErrorResponses from './SearchErrorResponse';
+import { DocumentLinkComponent } from './DocumentLinkComponent';
 
+let test = "rererererer"
 interface SearchResultTableProps {
+    //data: any
     data: any
-    closeResults : any
-
-
+    closeResults: any
+    sessionID : any
+    searchRequest : any
 }
 
 function SearchResultTableComponent(props: SearchResultTableProps) {
 
-    if (props.data[0] !== "" ) {
+    const renderDocument = (data : any) => {
+    
+        return (
+            <DocumentLinkComponent  documentId={data.row.uniqueID} repository={data.row.repositoryID} searchRequest={props.searchRequest}/>
+        )
+    }
+    
+    
+    const columns: GridColDef[] = [
+        { field: 'uniqueID', headerName: 'Unique ID', width: 300 },
+        { field: 'repositoryID', headerName: 'Repository ID', width: 200 },
+        { field: 'documentType', headerName: 'Document Type', width: 460 },
+        { field: 'serviceStart', headerName: 'Service Start', width: 200 },
+        { field: 'serviceStop', headerName: 'Service Stop', width: 200 },
+        { field: 'link', headerName: 'Document', width: 130, renderCell : rowData =>{return renderDocument(rowData);} },
+        { field: 'empty1', headerName: '', width: 130 },
+        { field: 'empty2', headerName: '', width: 130 },
+    
+    ];
 
-
+    if (instanceOfIti18Response(props.data)) {
         const getRows = (data: any) => {
+            const rows: any = []
+            for (let i = 0; i < ((props.data as Iti18Response).queryResponse).length; i++) {
+
+                let startService = ""
+                let stopService = ""
+                if ((data as Iti18Response).queryResponse[i].serviceEnd !== null){
+                    stopService = formatTimeFromIti18Response((data as Iti18Response).queryResponse[i].serviceEnd)
+                }
+                if ((data as Iti18Response).queryResponse[i].serviceStart !== null){
+                    startService = formatTimeFromIti18Response((data as Iti18Response).queryResponse[i].serviceStart)
+                }
 
 
-
-            const rows = []
-            for (let i = 0; i < data.length; i++) {
 
                 let resp = {
-                    uniqueID: (data[i] as Iti18Response).queryResponse.documentId,
-                    documentType: (data[i] as Iti18Response).queryResponse.documentType,
-                    patientId: (data[i] as Iti18Response).queryResponse.patientId,
-                    repositoryID: (data[i] as Iti18Response).queryResponse.repositoryID,
-                    serviceStop: formatTimeFromIti18Response((data[i] as Iti18Response).queryResponse.serviceEnd),
-                    serviceStart: formatTimeFromIti18Response((data[i] as Iti18Response).queryResponse.serviceStart)
+                    uniqueID: (data as Iti18Response).queryResponse[i].documentId,
+                    documentType: (data as Iti18Response).queryResponse[i].documentType,
+                    patientId: (data as Iti18Response).queryResponse[i].patientId,
+                    repositoryID: (data as Iti18Response).queryResponse[i].repositoryID,
+                    serviceStop: stopService,
+                    serviceStart: startService,
+                    
                 }
                 rows.push(resp)
 
@@ -40,17 +71,16 @@ function SearchResultTableComponent(props: SearchResultTableProps) {
         }
 
         let rowss = getRows(props.data)
-
-
-
         return (
-            <>
-                <div style={{ height: 400, width: '100%' }}>
-                    <IconButton style={{ float: "right" }} onClick={() => {
-                        props.closeResults([""])
-                    }}>
-                        <CloseIcon  />
-                    </IconButton>
+            <><IconButton style={{ float: "right" }} onClick={() => {
+                props.closeResults([""])
+            }}>
+                <CloseIcon />
+            </IconButton>
+                <SearchErrorResponses data={(props.data as Iti18Response).errors}
+                 amountOfResponses={(props.data as Iti18Response).queryResponse.length} />
+                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                    
 
                     <DataGrid
                         rows={rowss}
@@ -67,11 +97,8 @@ function SearchResultTableComponent(props: SearchResultTableProps) {
         return null
     }
 
-
-
-
-
 }
+
 
 export default SearchResultTableComponent;
 
@@ -79,17 +106,8 @@ export default SearchResultTableComponent;
 
 
 
-const columns: GridColDef[] = [
-    { field: 'uniqueID', headerName: 'Unique ID', width: 300 },
-    { field: 'repositoryID', headerName: 'Repository ID', width: 200 },
-    { field: 'documentType', headerName: 'Document Type', width: 460  },
-    { field: 'serviceStart', headerName: 'Service Start', width: 200 },
-    { field: 'serviceStop', headerName: 'Service Stop', width: 200 },
-    { field: 'link', headerName: '', width: 130 },
-    { field: 'empty1', headerName: '', width: 130 },
-    { field: 'empty2', headerName: '', width: 130 },
 
-];
+
 
 
 

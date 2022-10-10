@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Loading from '../../../components/loading';
 import { useGetIDsForOwnerQuery } from '../redux/CredentialInfoApiSlice';
-import { Search, Codes, } from '../../../models/Searches/Search';
+import { Search, Codes, CodeQuery } from '../../../models/Searches/Search';
 import { healthcareProfessionalContext, iti18QueryParameter, iti18Request } from '../../../models/Searches/Iti18Request';
 import { usePostFormMutation } from '../redux/SearchApiSlice';
 import formatDateTime from '../../../components/Generics/DateTimeFormatter';
@@ -17,6 +17,7 @@ import { RowFive } from './Components/RowFive';
 import { RowSix } from './Components/RowSix';
 import { Iti18Response } from '../../../models/Searches/Iti18Response';
 import { useState } from 'react';
+
 
 export const FormComponent = (props: any) => {
     const { t } = useTranslation();
@@ -44,51 +45,39 @@ export const FormComponent = (props: any) => {
         }
         let [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate] = handleTimes(object)
 
+        let [tempTypeCode, tempFormatCode, tempHealthcareFacilityTypeCode, tempEventCode, tempPracticeSettingCode] = handleNullObejcts(object)
+        
+
+
         const searchQuery: iti18QueryParameter = {
             patientId: object!.patientId,
-            typeCode: {
-                code: object.typeCode!.code,
-                codeScheme: object.typeCode!.scheme
-            },
-            formatCode: {
-                code: object.formatCode!.code,
-                codeScheme: object.formatCode!.scheme
-
-            },
-            healthcareFacilityTypeCode: {
-                code: object.healthcareFacilityTypeCode!.code,
-                codeScheme: object.healthcareFacilityTypeCode!.scheme
-
-            },
-            eventCode: {
-                code: object.eventCodeInput!,
-                codeScheme: object.eventCode!.code
-
-            },
-            practiceSettingCode: {
-                code: object.practiceSettingCode!.code,
-                codeScheme: object.practiceSettingCode!.scheme
-            },
+            typeCode: tempTypeCode,
+            formatCode: tempFormatCode,
+            healthcareFacilityTypeCode: tempHealthcareFacilityTypeCode,
+            eventCode: tempEventCode,
+            practiceSettingCode: tempPracticeSettingCode,
             documentType: documentTypes,
             startFromDate: startFromDateDate,
             startToDate: startToDateDate,
             endFromDate: endFromDateDate,
             endToDate: endToDateDate,
-            availabilityStatus: object.availabilityStatus!.code
+            availabilityStatus: object.availabilityStatus!.name
         }
+
+
         return searchQuery
 
     }
 
-/**
- *  typeCode: Yup.object().nullable().required(t('Required')),
-        personNumber: Yup.string().required(t('Required'))
- */
+    /**
+     *  typeCode: Yup.object().nullable().required(t('Required')),
+            personNumber: Yup.string().required(t('Required'))
+     */
     const FormSchema = Yup.object().shape({
         certificate: Yup.object().nullable()
             .required(t('Required')),
         patientId: Yup.string().required(t('Required'))
-       
+
     });
 
     if (isLoading) {
@@ -138,7 +127,7 @@ export const FormComponent = (props: any) => {
                                 role = "User"
                             }
 
-                            let authCode : string | null = values.authorizationCode!
+                            let authCode: string | null = values.authorizationCode!
                             if (authCode.trim().length === 0) {
                                 authCode = null
                             }
@@ -155,12 +144,15 @@ export const FormComponent = (props: any) => {
                                 context: context
                             }
 
-                        console.log(request)
-                           let temp: any = await postForm(request)
+                            props.changeSearchRequest(request)
+
+                            console.log(request)
+                            let temp: any = await postForm(request)
                             let result: Iti18Response = temp.data
+                            console.log(result)
                             setRequestID(result.requestId)
                             setResponseID(result.responseId)
-                           // props.changeSearchResult(result)
+                            props.changeSearchResult(result)
                         }}
 
                     >
@@ -194,8 +186,8 @@ export const FormComponent = (props: any) => {
                                     {...formikProps}
                                     helperText={helperText} />
                                 <RowSix
-                                requestID={requestID} responseID={responseID} {...formikProps}
-                                helperText={helperText} />
+                                    requestID={requestID} responseID={responseID} {...formikProps}
+                                    helperText={helperText} />
                             </Form>
                         )}
                     </Formik>
@@ -206,7 +198,7 @@ export const FormComponent = (props: any) => {
     else {
         return null
     }
-};
+}
 
 
 export default FormComponent
@@ -240,4 +232,80 @@ function handleTimes(object: Search) {
     }
 
     return [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate]
+}
+
+function handleNullObejcts(object: Search) {
+
+    let tempTypeCode: CodeQuery
+    let tempFormatCode: CodeQuery
+    let tempHealthcareFacilityTypeCode: CodeQuery
+    let tempEventCode: CodeQuery
+    let tempPracticeSettingCode: CodeQuery
+
+    if (object.typeCode === null) {
+        tempTypeCode = {
+            code: '',
+            codeScheme: ''
+        }
+    }
+    else {
+        tempTypeCode = {
+            code: object.typeCode!.code,
+            codeScheme: object.typeCode!.scheme
+        }
+    }
+    if (object.formatCode === null) {
+        tempFormatCode = {
+            code: '',
+            codeScheme: ''
+        }
+    }
+    else {
+        tempFormatCode = {
+            code: object.formatCode!.code,
+            codeScheme: object.formatCode!.scheme
+        }
+    }
+    if (object.healthcareFacilityTypeCode === null) {
+        tempHealthcareFacilityTypeCode = {
+            code: '',
+            codeScheme: ''
+        }
+    }
+    else {
+        tempHealthcareFacilityTypeCode = {
+            code: object.healthcareFacilityTypeCode!.code,
+            codeScheme: object.healthcareFacilityTypeCode!.scheme
+        }
+    }
+    if (object.eventCode === null) {
+        tempEventCode = {
+            code: '',
+            codeScheme: ''
+        }
+    }
+    else {
+        tempEventCode = {
+            code: object.eventCodeInput!,
+            codeScheme: object.eventCode!.code
+        }
+    }
+    if (object.practiceSettingCode === null) {
+        tempPracticeSettingCode = {
+            code: '',
+            codeScheme: ''
+        }
+    }
+    else {
+        tempPracticeSettingCode = {
+            code: object.practiceSettingCode!.code,
+            codeScheme: object.practiceSettingCode!.scheme
+        }
+
+    }
+    return [tempTypeCode,
+        tempFormatCode,
+        tempHealthcareFacilityTypeCode,
+        tempEventCode,
+        tempPracticeSettingCode]
 }

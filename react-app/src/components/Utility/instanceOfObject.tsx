@@ -8,3 +8,8 @@ export function instanceOfCodes(object : any) {
 
 } 
 
+export function instanceOfIti18Response(object : any) {
+    return 'queryResponse' && 'errors' in object;
+
+}
+

@@ -26,6 +26,8 @@ export interface Search {
 export interface CredentialInfoResponse {
     id : string
     displayName : string
+    credentialType : credentialType
+    subjectSerialNumber : string
 }
 
 export interface Codes {
@@ -41,3 +43,7 @@ export interface CodeQuery {
 }
 
 
+enum credentialType {
+    HEALTHCAREPROFESSIONAL,
+    SYSTEM
+  }

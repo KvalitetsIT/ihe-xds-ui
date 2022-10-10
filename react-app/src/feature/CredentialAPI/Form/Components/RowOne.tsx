@@ -23,15 +23,15 @@ return (
     <div className='row'>
         <Grid container direction={"row"} justifyContent="center"
             alignItems="center">
-            <Grid item xs={4}>
+            <Grid item xs={6}>
                 <TextField id="patientId" name='patientId' label="Patient ID" variant="outlined"
                     onChange={props.handleChange}
                     value={getIn(props.values, 'patientId')} />
             </Grid>
-            <Grid item xs={4}>
+            {/*<Grid item xs={4}>
                 <TextField id="uniqueId" name='uniqueId' label="Unique ID" variant="outlined" onChange={props.handleChange} value={getIn(props.values, 'uniqueId')} />
-            </Grid>
-            <Grid item xs={4}>
+</Grid>*/}
+            <Grid item xs={6}>
                 <Stack direction="row" spacing={1.5}>
                     {GetTypeCodes(props.helperText, props)}
                     <Tooltip title="Der søges på kodeværdien indenfor codeScheme: 2.16.840.1.113883.6.1">
