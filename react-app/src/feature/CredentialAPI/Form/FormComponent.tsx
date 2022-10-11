@@ -84,6 +84,7 @@ export const FormComponent = (props: any) => {
         return Loading()
     }
     else if (isSuccess) {
+        console.log(data)
 
         const codeTemplate: Codes = {
             name: "",
