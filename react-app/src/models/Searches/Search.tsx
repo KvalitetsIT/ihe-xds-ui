@@ -43,7 +43,7 @@ export interface CodeQuery {
 }
 
 
-enum credentialType {
+export enum credentialType {
     HEALTHCAREPROFESSIONAL,
     SYSTEM
   }

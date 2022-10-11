@@ -2,7 +2,7 @@ import getEnvironment from "../../../env";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import handleResponse from "../../../redux/handleResponse";
 import fetchDefaultBaseQuery from "../../../redux/BaseQuerySettings";
-import { CredentialInfoResponse } from "../../../models/Searches/Search";
+import { CredentialInfoResponse, credentialType } from "../../../models/Searches/Search";
 import { ApiSlice } from "./ApiSlice";
 
 const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
@@ -15,7 +15,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: (owner) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}`,
+                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=${credentialType.HEALTHCAREPROFESSIONAL.toString()}`,
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Credential Info could not be fetched" }),
                 }),
