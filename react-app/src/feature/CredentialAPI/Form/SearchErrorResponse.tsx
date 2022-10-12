@@ -12,14 +12,14 @@ interface SearchErrorResponses {
 }
 
 function SearchErrorResponses(props: SearchErrorResponses) {
-    let [errorList, warningList]  = findRelevantErrors(props.data)
+    let [errorList, warningList] = findRelevantErrors(props.data)
     return (
         <>
-        <Stack sx={{ width: '100%' }} spacing={2}>
-            {successInfo(props.amountOfResponses)}
-            {getErrorsBox(errorList)}
-            {getWarningsBox(warningList)}
-        </Stack>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                {successInfo(props.amountOfResponses)}
+                {getErrorsBox(errorList)}
+                {getWarningsBox(warningList)}
+            </Stack>
         </>
     )
 
@@ -28,15 +28,15 @@ function SearchErrorResponses(props: SearchErrorResponses) {
 
 function findRelevantErrors(data: registryError[]) {
     let error = []
-    let warnings= []
-    
-        for (const errorObj of data) {
-            if (errorObj.severity.toString().includes("ERROR")) {
-                error.push(errorObj)
-            } else {
-                warnings.push(errorObj)
-            }
-        } 
+    let warnings = []
+
+    for (const errorObj of data) {
+        if (errorObj.severity.toString().includes("ERROR")) {
+            error.push(errorObj)
+        } else {
+            warnings.push(errorObj)
+        }
+    }
     return [error, warnings]
 
 }
@@ -59,9 +59,10 @@ function successInfo(numberOfResp: number) {
 export default SearchErrorResponses;
 
 
-function getWarningsBox(list : registryError[]) {
-    return (
-        <Alert severity="warning">
+function getWarningsBox(list: registryError[]) {
+    if (list.length > 0) {
+        return (
+            <Alert severity="warning">
                 {
                     list.map((error: registryError, index: number) => {
                         return (
@@ -72,22 +73,33 @@ function getWarningsBox(list : registryError[]) {
                     })
                 }
             </Alert>
-    )
+        )
+    }
+    else { return null }
 
 }
 
-function getErrorsBox(list : registryError[]) {
-    return (
-        <Alert severity={"error"}>
+function getErrorsBox(list: registryError[]) {
+    if (list.length > 0) {
+        return (
+            <Alert severity={"error"}>
                 {
                     list.map((error: registryError, index: number) => {
+                        if (error.customErrorCode !== null) {
+                           return( <div key={index}>
+                                {error.errorCode.split(",")[0].trim() + ": " + error.customErrorCode + " " + error.codeContext}
+                            </div>)
+                        }
+                        else {
                         return (
                             <div key={index}>
                                 {error.errorCode.split(",")[0].trim() + ":" + " " + error.codeContext}
                             </div>
                         )
+                        }
                     })
                 }
             </Alert>
-    )
+        )
+    } else { return null }
 }
