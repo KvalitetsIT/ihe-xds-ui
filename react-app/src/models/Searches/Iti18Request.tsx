@@ -33,3 +33,15 @@ export interface iti18Request {
     credentialId : string
     context : healthcareProfessionalContext
 } 
+
+
+export interface iti18RequestUnique {
+    queryParameters : Iti18UniqueQueryParameter
+}
+
+export interface Iti18UniqueQueryParameter {
+    credentialId : string
+    patientId : string 
+    documentId : string
+    context : healthcareProfessionalContext
+}

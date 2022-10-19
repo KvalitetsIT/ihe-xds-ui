@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import handleResponse from "../../../redux/handleResponse";
 import fetchDefaultBaseQuery from "../../../redux/BaseQuerySettings";
 import { ApiSlice } from "./ApiSlice";
-import { iti18Request } from "../../../models/Searches/Iti18Request";
-import { Iti18Response } from "../../../models/Searches/Iti18Response";
+import { iti18Request, iti18RequestUnique } from "../../../models/Searches/Iti18Request";
+import { Iti18Response, iti18ResponseUnique } from "../../../models/Searches/Iti18Response";
 import { Logs } from "../../../models/Searches/Logs";
 
 const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
@@ -52,7 +52,23 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 }),
                 providesTags: ['PreviousResponse']
             }),
+            uniqueIdSearch: builder.mutation<iti18ResponseUnique, iti18RequestUnique>({
+                query: (request) => ({
+                    // url : `${baseurl}` +  '/v1/credentialinfo',
+                    url: `http://localhost:8080` + '/v1/iti18/uniqueID',
 
+                    method: 'POST',
+                    body: request,
+                    responseHandler: (res) => {
+                        return handleResponse({
+
+                            response: res, toastWithResult: false, toastErrorText: "Search error!"
+                        })
+                    }
+                }),
+                invalidatesTags: ['UniqueIDSearchQuries']
+
+            })
 
 
           
@@ -60,4 +76,4 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
     }
 )
 
-export const {usePostFormMutation, useLazyGetPrevRequestQuery, useLazyGetPrevResponseQuery} = exendendApiSlice
+export const {usePostFormMutation, useLazyGetPrevRequestQuery, useLazyGetPrevResponseQuery, useUniqueIdSearchMutation} = exendendApiSlice

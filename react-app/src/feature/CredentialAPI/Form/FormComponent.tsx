@@ -45,23 +45,23 @@ export const FormComponent = (props: any) => {
         }
         let [startFromDateDate, startToDateDate, endFromDateDate, endToDateDate] = handleTimes(object)
 
-        let [tempTypeCode, tempFormatCode, tempHealthcareFacilityTypeCode, tempEventCode, tempPracticeSettingCode] = handleNullObejcts(object)
+        let [tempTypeCode, tempFormatCode, tempHealthcareFacilityTypeCode, tempEventCode, tempPracticeSettingCode, tempAvailabilityStatus] = handleNullObejcts(object)
         
 
 
         const searchQuery: iti18QueryParameter = {
             patientId: object!.patientId,
-            typeCode: tempTypeCode,
-            formatCode: tempFormatCode,
-            healthcareFacilityTypeCode: tempHealthcareFacilityTypeCode,
-            eventCode: tempEventCode,
-            practiceSettingCode: tempPracticeSettingCode,
+            typeCode: tempTypeCode as CodeQuery,
+            formatCode: tempFormatCode as CodeQuery,
+            healthcareFacilityTypeCode: tempHealthcareFacilityTypeCode as CodeQuery,
+            eventCode: tempEventCode as CodeQuery,
+            practiceSettingCode: tempPracticeSettingCode as CodeQuery,
             documentType: documentTypes,
             startFromDate: startFromDateDate,
             startToDate: startToDateDate,
             endFromDate: endFromDateDate,
             endToDate: endToDateDate,
-            availabilityStatus: object.availabilityStatus!.name
+            availabilityStatus: (tempAvailabilityStatus) as string
         }
 
 
@@ -242,6 +242,7 @@ function handleNullObejcts(object: Search) {
     let tempHealthcareFacilityTypeCode: CodeQuery
     let tempEventCode: CodeQuery
     let tempPracticeSettingCode: CodeQuery
+    let tempAvailabilityStatus: string
 
     if (object.typeCode === null) {
         tempTypeCode = {
@@ -304,9 +305,16 @@ function handleNullObejcts(object: Search) {
         }
 
     }
+
+    if (object.availabilityStatus === null) {
+        tempAvailabilityStatus = ""
+    } else {
+        tempAvailabilityStatus = object.availabilityStatus!.name
+    }
     return [tempTypeCode,
         tempFormatCode,
         tempHealthcareFacilityTypeCode,
         tempEventCode,
-        tempPracticeSettingCode]
+        tempPracticeSettingCode,
+        tempAvailabilityStatus]
 }

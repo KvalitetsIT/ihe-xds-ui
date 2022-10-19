@@ -7,7 +7,6 @@ export function base64Decode(input : string) {
 
 }
 
-//encodeURIComponent(uriComponent)
 
 
 export function urlEncoding(input : string) {
