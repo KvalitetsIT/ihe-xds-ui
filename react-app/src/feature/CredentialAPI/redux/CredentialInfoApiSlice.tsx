@@ -15,7 +15,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: (owner) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=${credentialType.HEALTHCAREPROFESSIONAL.toString()}`,
+                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=HEALTHCAREPROFESSIONAL`,
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Credential Info could not be fetched" }),
                 }),

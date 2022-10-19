@@ -2,27 +2,27 @@ import { Codes } from "./Search"
 
 
 export interface Iti18QueryResponse {
-    documentId: string
-    documentType: string
-    patientId: string
-    repositoryID: string
-    serviceEnd: number
-    serviceStart: number
+  documentId: string
+  documentType: string
+  patientId: string
+  repositoryID: string
+  serviceEnd: number
+  serviceStart: number
 }
 
 export interface Iti18Response {
-    queryResponse : Iti18QueryResponse[]
-    requestId : string
-    responseId : string
-    errors: registryError[]
+  queryResponse: Iti18QueryResponse[]
+  requestId: string
+  responseId: string
+  errors: registryError[]
 }
 
 
 export interface iti18ResponseUnique {
-    authorInstitution: Codes
+  authorInstitution: Codes
   authorPerson: string
   availabilityStatus: Codes
-  classCode : Codes
+  classCode: Codes
   comments: string
   confidentialityCode: Codes
   creationTime: number
@@ -33,7 +33,7 @@ export interface iti18ResponseUnique {
   extraMetadata: string
   formatCode: Codes
   hash: string
-  healthCareFacilityType:Codes
+  healthCareFacilityType: Codes
   homeComunity: string
   languageCode: string
   legalAuthenticator: string
@@ -45,35 +45,35 @@ export interface iti18ResponseUnique {
   serviceStartTime: number
   serviceStopTime: number
   size: number
-  sourcePatientId: string
+  sourcePatientId: Codes
   sourcePatientInfo: {
     name: string
     gender: Gender
     birthTime: number
   }
-  title : string
+  title: string
   type: Codes
   typeCode: Codes
   uniqueId: string
   uri: string
-  version: number
+  version: string
 }
 
 export interface registryError {
-    codeContext : string 
-    errorCode : string
-    severity : Serverity
-    customErrorCode : string
+  codeContext: string
+  errorCode: string
+  severity: Serverity
+  customErrorCode: string
 
 }
 
 enum Serverity {
-    ERROR,
-    WARNING
-  }
+  ERROR,
+  WARNING
+}
 
-  enum Gender {
-    M,
-    F,
-    UNI
-  }
+enum Gender {
+  M,
+  F,
+  UNI
+}

@@ -32,7 +32,7 @@ function SearchResultTableComponent(props: SearchResultTableProps) {
         { field: 'documentType', headerName: 'Document Type', width: 460 },
         { field: 'serviceStart', headerName: 'Service Start', width: 200 },
         { field: 'serviceStop', headerName: 'Service Stop', width: 200 },
-        { field: 'link', headerName: 'Document', width: 130, renderCell : rowData =>{return renderDocument(rowData);} },
+        { field: 'link', headerName: 'Document', width: 130, renderCell : renderDocument },
         { field: 'empty1', headerName: '', width: 130 },
         { field: 'empty2', headerName: '', width: 130 },
     
