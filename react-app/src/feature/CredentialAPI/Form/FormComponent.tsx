@@ -19,9 +19,9 @@ import { Iti18Response } from '../../../models/Searches/Iti18Response';
 import { useState } from 'react';
 
 
-export const FormComponent = (props: any) => {
+ const FormComponent = (props: any) => {
     const { t } = useTranslation();
-    const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery(props.sessionID)
+    const { data, isLoading, isSuccess } = useGetIDsForOwnerQuery({owner : props.sessionID, type : "HEALTHCAREPROFESSIONAL"})
     const [postForm, formResult] = usePostFormMutation();
     const [responseID, setResponseID] = useState("-1")
     const [requestID, setRequestID] = useState("-1")
@@ -84,7 +84,6 @@ export const FormComponent = (props: any) => {
         return Loading()
     }
     else if (isSuccess) {
-        console.log(data)
 
         const codeTemplate: Codes = {
             name: "",

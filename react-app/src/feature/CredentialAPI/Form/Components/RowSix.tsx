@@ -79,7 +79,6 @@ const GetAvailabilityStatus = (helperText: string, formikProps: any) => {
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
                 displayLabel={'Availability Status'}
                 getOptionsLabel={(option: Codes) => option?.name}
                 options={data}

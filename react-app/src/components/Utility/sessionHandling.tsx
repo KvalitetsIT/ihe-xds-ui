@@ -7,6 +7,7 @@ export function handleSession() {
 
    window.sessionStorage.setItem(sessionName, generateID())
 
+
 }
 
 
@@ -20,7 +21,7 @@ function generateID() {
 
 export function getSession() {
     
-
+    
     return window.sessionStorage.getItem(sessionName)!
 
 }

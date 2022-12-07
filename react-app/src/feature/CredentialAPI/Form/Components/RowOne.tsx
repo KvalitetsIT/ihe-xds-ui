@@ -54,7 +54,6 @@ const GetTypeCodes = (helperText: string, formikProps: any) => {
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
                 displayLabel={'Type Code'}
                 getOptionsLabel={(option: Codes) => option?.name}
                 options={data}

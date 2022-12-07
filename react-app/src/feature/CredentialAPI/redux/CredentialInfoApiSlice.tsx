@@ -11,11 +11,12 @@ const baseurl = getEnvironment().REACT_APP_API_BASEURL || "localhost:8080";
 export const exendendApiSlice = ApiSlice.injectEndpoints(
     {
         endpoints: builder => ({
-            getIDsForOwner: builder.query<CredentialInfoResponse[], string>({
-                query: (owner) => ({
+            getIDsForOwner: builder.query<CredentialInfoResponse[], {owner : string, type : string}>({
+                query: ({owner, type}) => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=HEALTHCAREPROFESSIONAL`,
+                    //url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=HEALTHCAREPROFESSIONAL`,
+                    url: `http://localhost:8080` + '/v1/credentialinfo?owner=' + `${owner}&type=${type}`,
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Credential Info could not be fetched" }),
                 }),
