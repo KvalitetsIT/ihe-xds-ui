@@ -3,7 +3,7 @@ import { t } from 'i18next';
 function Footer() {
     return (
         <>
-        {t("this is the footer") + ""}
+        {/*t("this is the footer") + ""*/}
     </>
     )
 }
