@@ -53,7 +53,6 @@ const GetPracticeSettingCode = (helperText: string, formikProps: any) => {
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
                 displayLabel={'Practice Setting Code'}
                 getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}

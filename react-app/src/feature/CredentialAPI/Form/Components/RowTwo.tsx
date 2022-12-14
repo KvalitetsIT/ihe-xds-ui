@@ -56,7 +56,7 @@ const GetFormatCodes = (helperText: string, formikProps: any) => {
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
+        
                 displayLabel={'Format Code'}
                 getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
@@ -76,7 +76,6 @@ const GetHealthcareFacilityTypeCode = (helperText: string, formikProps: any) => 
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
                 displayLabel={'Healthcare Facility Type Code'}
                 getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}

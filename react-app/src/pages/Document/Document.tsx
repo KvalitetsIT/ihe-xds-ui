@@ -13,7 +13,7 @@ import { iti18ResponseUnique, registryError } from '../../models/Searches/Iti18R
 import SearchErrorResponses from '../../feature/CredentialAPI/Form/SearchErrorResponse';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { formatValueText } from './MetaDataTextFormattibng';
+import { formatValueText } from './MetaDataTextFormatting';
 import { CreateOtherErrors } from './DrawOtherErrors';
 
 

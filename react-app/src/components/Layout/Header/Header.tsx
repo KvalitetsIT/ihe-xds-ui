@@ -13,7 +13,8 @@ return (
         <div className="nav-bar">
             <ul>
                 <li><Button onClick={() => navigate("/")}>{t("Search") + ""}</Button></li>
-                <li>{t("Upload") + ""}</li>
+                <li><Button onClick={() => navigate("/upload")}>{t("Upload") + ""}</Button></li>
+                {/*<li>{t("Upload") + ""}</li>*/}
                 <li><Button onClick={() => navigate("/about")}>{t("About") + ""}</Button></li>
             </ul>
         </div>

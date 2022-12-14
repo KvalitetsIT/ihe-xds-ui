@@ -13,6 +13,7 @@ interface DropdownProps<T> {
     helperText: string
     getOptionsLabel: (option: T) => string
     displayLabel: string
+    readOnly: boolean 
 }
 
 
@@ -31,12 +32,9 @@ export default function Dropdown<T>(props: CustomFormikProps & DropdownProps<T>)
             value={value}
             renderInput={(params) => <TextField {...params} label={props.displayLabel} />}
             isOptionEqualToValue={() => true}
-    
-
+            readOnly={props.readOnly}
             
-
-        //name={formikProps.values.}
-
+    
 
         />
         <FormHelperText error={props.helperText != undefined} >

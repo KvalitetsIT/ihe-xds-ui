@@ -41,7 +41,6 @@ const GetEventCode = (helperText: string, formikProps: any) => {
     if (isSuccess) {
         return (
             <Dropdown
-                initValue={undefined}
                 displayLabel={'Event Code (scheme)'}
                 getOptionsLabel={(option: Codes) => " " + option?.code + " - " + option?.name}
                 options={data}
