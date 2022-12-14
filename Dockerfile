@@ -7,10 +7,10 @@ RUN npm install
 RUN npm run build
 
 # Download and build our environment injector
-FROM golang:1.15.6-alpine3.12 as go-downloader
+FROM golang:1.19.3-alpine3.16 as go-downloader
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
-RUN go get github.com/nrmitchi/runtime-js-env
+RUN go install github.com/lithictech/runtime-js-env@latest
 
 # Copy the built application into Nginx for serving
 FROM nginx:stable-alpine
