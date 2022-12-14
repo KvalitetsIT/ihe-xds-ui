@@ -18,7 +18,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/typeCode',
+                    url: `${baseurl}`+ '/v1/codes/typeCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Type codes could not be fetched" }),
                 }),
@@ -28,7 +28,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/formatCode',
+                    url: `${baseurl}` + '/v1/codes/formatCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Format codes could not be fetched" }),
                 }),
@@ -38,7 +38,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/healthCareFacilityType',
+                    url: `${baseurl}` + '/v1/codes/healthCareFacilityType',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Healthcare facility type codes could not be fetched" }),
                 }),
@@ -48,7 +48,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/eventCode',
+                    url: `${baseurl}` + '/v1/codes/eventCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Event code could not be fetched" }),
                 }),
@@ -59,7 +59,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/practiceSettingCode',
+                    url: `${baseurl}` + '/v1/codes/practiceSettingCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Practise setting code could not be fetched" }),
                 }),
@@ -69,7 +69,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/availabilityStatusCode',
+                    url: `${baseurl}` + '/v1/codes/availabilityStatusCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: " Availability status could not be fetched" }),
                 }),
@@ -79,7 +79,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
                 query: () => ({
 
                     // url : `${baseurl}` +'/v1CredentialinfoGet?owner=' + `${owner}`,
-                    url: `http://localhost:8080` + '/v1/codes/objectTypeCode',
+                    url: `${baseurl}` + '/v1/codes/objectTypeCode',
                     method: 'GET',
                     responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: " Object type could not be fetched" }),
                 }),

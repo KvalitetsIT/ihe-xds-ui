@@ -12,7 +12,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
         getRepositories: builder.query<iti41Repository[], void>({
             query: () => ({
 
-                url: `http://localhost:8080` + '/v1/iti41/repositories',
+                url: `${baseurl}` + '/v1/iti41/repositories',
                 method: 'GET',
                 responseHandler: (res) => handleResponse({ response: res, toastWithResult: false, toastErrorText: "Repositories could not be fetched" }),
             }),
@@ -22,7 +22,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
         postPreUpload: builder.mutation<iti41PreviewResponse, iti41PreUploadRequest>({
             query: (request) => ({
                 // url : `${baseurl}` +  '/v1/credentialinfo',
-                url: `http://localhost:8080` + '/v1/iti41/previewUpload',
+                url: `${baseurl}` + '/v1/iti41/previewUpload',
 
                 method: 'POST',
                 body: request,
@@ -40,7 +40,7 @@ export const exendendApiSlice = ApiSlice.injectEndpoints(
             query: (request) => ({
                 // url : `${baseurl}` +  '/v1/credentialinfo',
                 // New error message
-                url: `http://localhost:8080` + '/v1/iti41/upload',
+                url: `${baseurl}` + '/v1/iti41/upload',
 
                 method: 'POST',
                 body: request,

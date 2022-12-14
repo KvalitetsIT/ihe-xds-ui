@@ -1,5 +1,5 @@
 import { CodeSharp } from "@mui/icons-material";
-import { Button, Checkbox, FormControlLabel, FormGroup, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Stack, TextField, Typography } from "@mui/material";
 import { CustomFormikProps } from "../../../components/Generics/CustomFormProps";
 import Dropdown from "../../../components/Generics/Dropdown";
 import { useGetAvailabilityStatusQuery, useGetFormatCodesQuery, useGetHealthCareFacilityTypeCodeQuery, useGetObjectTypeQuery, useGetPractiseSettingCodeQuery } from "../../../feature/CredentialAPI/redux/CodesApSlicei";
@@ -13,17 +13,33 @@ export function RenderOptionalMetadata(generatedData: generatedMetadata, formikP
             <div className="form-container form-defualt">
                 <div className="form-panel-header" >Set optional metadata</div>
                 <div className='form-body'>
-                    {RenderClassCodes(generatedData, formikProps, helperText)}
-                    {RenderFormatCodes(generatedData, formikProps, helperText)}
-                    {GetHealthcareFacilityTypeCode(helperText, formikProps)}
-                    {GetPracticeSettingCode(helperText, formikProps)}
-                    {GetAvailabilityStatus(helperText, formikProps)}
-                    {GetDocumentTypes(helperText, formikProps)}
-                    <TextField id="submissionTime" label="Submission Time" variant="outlined" defaultValue={"Faktisk tid for upload anvendes"} InputProps={{
-                        readOnly: true,
-                    }} />
-                    {IsVerifiedDocument(generatedData, formikProps, helperText)}
-                    <Button type={"submit"}>Upload</Button>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Stack spacing={2} >
+                                <Stack spacing={2} direction={'row'}>
+                                    <Grid item xs={6}>
+                                        {RenderClassCodes(generatedData, formikProps, helperText)}
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        {RenderFormatCodes(generatedData, formikProps, helperText)}
+                                    </Grid>
+                                </Stack>
+                                <Stack spacing={2} direction={'row'}>
+                                    {GetHealthcareFacilityTypeCode(helperText, formikProps)}
+                                    {GetPracticeSettingCode(helperText, formikProps)}
+                                </Stack>
+                                <Stack spacing={2} direction={'row'}>
+                                    {GetAvailabilityStatus(helperText, formikProps)}
+                                    {GetDocumentTypes(helperText, formikProps)}
+                                </Stack>
+                                <TextField id="submissionTime" label="Submission Time" variant="outlined" defaultValue={"Faktisk tid for upload anvendes"} InputProps={{
+                                    readOnly: true,
+                                }} />
+                                {IsVerifiedDocument(generatedData, formikProps, helperText)}
+                                <Button type={"submit"}>Upload</Button>
+                            </Stack>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </>)
@@ -196,22 +212,22 @@ function RenderClassCodes(generatedData: generatedMetadata, formikProps: CustomF
 
 
 }
-function IsVerifiedDocument(generatedData: generatedMetadata, formikProps: CustomFormikProps, helperText: string)  {
-if (generatedData.isLegalDocument) {
-    return (
-        <FormGroup>
-      <FormControlLabel disabled control={<Checkbox defaultChecked />} label="Verifed Document" />
-    </FormGroup>
-    )
+function IsVerifiedDocument(generatedData: generatedMetadata, formikProps: CustomFormikProps, helperText: string) {
+    if (generatedData.isLegalDocument) {
+        return (
+            <FormGroup>
+                <FormControlLabel disabled control={<Checkbox defaultChecked />} label="Verifed Document" />
+            </FormGroup>
+        )
 
-} else {
-    return (
-<FormGroup>
-      <FormControlLabel disabled control={<Checkbox />} label="Not Verifed Document" />
-    </FormGroup>
+    } else {
+        return (
+            <FormGroup>
+                <FormControlLabel disabled control={<Checkbox />} label="Not Verifed Document" />
+            </FormGroup>
 
-    )
-}
+        )
+    }
 
 }
 

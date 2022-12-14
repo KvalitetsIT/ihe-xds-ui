@@ -16,9 +16,11 @@ import Document from './pages/Document/Document';
 import { Upload } from './pages/Upload/Upload/Upload';
 import { iti41PreviewResponse } from './models/UploadModels/PreUploadRequest';
 import { UploadPreview } from './pages/Upload/Preview/UploadPreview';
+import { SuccessPage } from './pages/Upload/Success/SuccessPage';
 
 function App() {
     const [session, setSession] = useState("");
+    const [isSuccess, setIsSuccess] = useState<(string|number)[]>([]);
     const [uploadData, setUploadData] = useState<iti41PreviewResponse | null>(null);
 
     useEffect(() => {
@@ -47,7 +49,8 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path='/document/:id' element={<Document />} />
                         <Route path='/upload' element={<Upload setUploadData={setUploadData} />} />
-                        <Route path='/upload/preview' element={<UploadPreview getUploadData={uploadData} />} />
+                        <Route path='/upload/preview' element={<UploadPreview getUploadData={uploadData} setIsSuccess={setIsSuccess}/>} />
+                        <Route path='/uploadDocument' element={<SuccessPage getIsSuccess={isSuccess} setIsSuccess={setIsSuccess} />} /> 
 
 
                     </Routes>

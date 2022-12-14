@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Box, Grid, Stack, TextField } from "@mui/material";
 import DropdownCredentialInfo from "../../../components/DropdownCredentialInfo";
 import { CustomFormikProps } from "../../../components/Generics/CustomFormProps";
 import { getSession } from "../../../components/Utility/sessionHandling";
@@ -19,22 +19,23 @@ interface WrapperProps {
 export function UploadPreviewWrapper(props: CustomFormikProps & WrapperProps) {
 
 
-    const formikProps : CustomFormikProps = {
+    const formikProps: CustomFormikProps = {
         values: props.values,
         touched: props.touched,
         errors: props.errors,
         handleChange: props.handleChange,
         setFieldValue: props.setFieldValue
-        }
-    
+    }
 
-  const RenderRepositoryField = (repoName: string) => {
+
+    const RenderRepositoryField = (repoName: string) => {
         const { data, isLoading, isSuccess } = useGetRepositoriesQuery()
         if (isLoading) {
             return null
         } else if (isSuccess) {
             return (<TextField id="repository" label="Repository" variant="outlined" inputProps={
-                { readOnly: true, }} value={repoName} />)
+                { readOnly: true, }} value={repoName}  style={{ width: 500}}/>)
+            {/** style={{ width: 420, paddingLeft: 24 }} */ }
         }
         else {
             return null
@@ -47,18 +48,18 @@ export function UploadPreviewWrapper(props: CustomFormikProps & WrapperProps) {
         if (isLoading) {
             return null
         } else if (isSuccess) {
-            return(
-            <DropdownCredentialInfo
-                displayLabel={'Certificate'}
-                getOptionsLabel={(option: CredentialInfoResponse) => option.displayName}
-                options={data}
-                fieldName={'certificate'}
-                helperText={props.helperText}
-                values={data}
-                touched={props.touched}
-                errors={props.errors}
-                handleChange={props.handleChange}
-                setFieldValue={props.setFieldValue} />)
+            return (
+                <DropdownCredentialInfo
+                    displayLabel={'Certificate'}
+                    getOptionsLabel={(option: CredentialInfoResponse) => option.displayName}
+                    options={data}
+                    fieldName={'certificate'}
+                    helperText={props.helperText}
+                    values={data}
+                    touched={props.touched}
+                    errors={props.errors}
+                    handleChange={props.handleChange}
+                    setFieldValue={props.setFieldValue} />)
         }
         else {
             return null
@@ -67,19 +68,31 @@ export function UploadPreviewWrapper(props: CustomFormikProps & WrapperProps) {
     }
 
     return (<>
-    <div className="form-container form-defualt">
-                            <div className="form-panel-header" >Information about current CDA (Create)</div>
+        <div className="form-container form-defualt">
+            <div className="form-panel-header" >Information about current CDA (Create)</div>
+            <Grid container direction={"row"} justifyContent={'flex-start'} alignItems={'center'} spacing={4}>
+                <Grid item sx={{m:2}}>
+                <Stack direction={'row'} spacing={4}>
+                {RenderRepositoryField(props.getUploadData.repository.displayName)}
+                {RenderCertificateDropdown()}
+                </Stack>
+                </Grid>
+                {/*<Grid item xs={6     }>
+                    
+                </Grid>
+                <Grid item xs={6}>
+                    <Box style={{ paddingRight: 24 }}>
+                        
+                    </Box>
+    </Grid>*/}
+            </Grid>
 
-                            {RenderRepositoryField(props.getUploadData.repository.displayName)}
-                            {RenderCertificateDropdown()}
-                        </div>
-            
-                {RenderOptionalMetadata(props.getUploadData.generatedMetadata, {...formikProps}, props.helperText)}
-                
+        </div>
 
-                {RenderGeneratedMetaData({ data: props.getUploadData.generatedMetadata })}
+        {RenderOptionalMetadata(props.getUploadData.generatedMetadata, { ...formikProps }, props.helperText)}
+        {RenderGeneratedMetaData({ data: props.getUploadData.generatedMetadata })}
 
-                {RenderPreviewXML(props.getUploadData.xmlInformation)}
+        {RenderPreviewXML(props.getUploadData.xmlInformation)}
     </>)
 }
 
